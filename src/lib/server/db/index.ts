@@ -12,7 +12,7 @@ const client = createClient({ url: env.DATABASE_URL });
 export const db = drizzle(client, { schema });
 
 export const createPosting = async (content: string) => {
-  await db.insert(posting).values({id: generateUUID(), content });
+  await db.insert(posting).values({id: generateUUID(), content }).execute();
 }
 
 function generateUUID() {
