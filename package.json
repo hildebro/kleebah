@@ -46,5 +46,9 @@
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.46.4",
 		"vite": "^7.2.2"
+	},
+	"dependencies": {
+		"carta-md": "^4.11.1",
+		"isomorphic-dompurify": "^2.32.0"
 	}
 }

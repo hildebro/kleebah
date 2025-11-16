@@ -7,7 +7,7 @@ Accessible software to share blogs, vlogs, links or anything else without being 
 ## Features
 
 ### Required for 1.0
-- [ ] Markdown editor for writing blogs
+- [x] Markdown editor for writing blogs
 - [ ] Blog viewer
 - [ ] RSS feed
 - [ ] Image upload

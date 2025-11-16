@@ -11,5 +11,9 @@ export default defineConfig({
 			project: './project.inlang',
 			outdir: './src/lib/paraglide'
 		})
-	]
+	],
+  optimizeDeps: {
+    // Add 'carta-md' here to ensure Vite processes its Svelte components
+    include: ['carta-md']
+  },
 });
