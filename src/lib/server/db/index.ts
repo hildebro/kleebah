@@ -4,6 +4,7 @@ import * as schema from './schema';
 import { env } from '$env/dynamic/private';
 import { posting } from './schema';
 import { encodeBase32LowerCase } from '@oslojs/encoding';
+import { eq } from 'drizzle-orm';
 
 if (!env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
 
@@ -13,6 +14,16 @@ export const db = drizzle(client, { schema });
 
 export const createPosting = async (content: string) => {
   await db.insert(posting).values({id: generateUUID(), content }).execute();
+}
+
+export const findAllPostings = async () => {
+  return db.query.posting.findMany().execute();
+}
+
+export const findPosting = async (id: string) => {
+  return db.query.posting.findFirst({
+    where: eq(posting.id, id)
+  }).execute();
 }
 
 function generateUUID() {

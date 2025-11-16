@@ -4,3 +4,4 @@
 
 <h1>Welcome to Kleebah</h1>
 <a href={resolve('/write')}>Write a blog</a>
+<a href={resolve('/read')}>Read blogs</a>
