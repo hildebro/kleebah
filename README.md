@@ -26,6 +26,8 @@ Accessible software to share blogs, vlogs, links or anything else without being 
   - [ ] Update RSS feed to consider roles
 
 ### Post 1.0
+- [ ] `docs` folder to host a static explainer website
+- [ ] Demo instance on the static explainer website
 - [ ] Cache blog access
   - [ ] Used for RSS feed and web list of blogs
   - [ ] Invalidated based on role change (on subscriber or blog level)
