@@ -8,12 +8,18 @@ importers:
 
   .:
     dependencies:
+      '@types/xml':
+        specifier: ^1.0.11
+        version: 1.0.11
       carta-md:
         specifier: ^4.11.1
         version: 4.11.1(svelte@5.43.7)
       isomorphic-dompurify:
         specifier: ^2.32.0
         version: 2.32.0
+      xml:
+        specifier: ^1.0.1
+        version: 1.0.1
     devDependencies:
       '@eslint/compat':
         specifier: ^2.0.0
@@ -987,6 +993,9 @@ packages:
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
+
+  '@types/xml@1.0.11':
+    resolution: {integrity: sha512-9gktTjxBWoz4+X8ZOS+QRFM2/liMQgBv8Z36wuNnomK5jtXFq4IJa7Az4Hzoy+rYux343NkH9Dq+nzIdejVrjw==}
 
   '@typescript-eslint/eslint-plugin@8.46.4':
     resolution: {integrity: sha512-R48VhmTJqplNyDxCyqqVkFSZIx1qX6PzwqgcXn1olLrzxcSBDlOsbtcnQuQhNtnNiJ4Xe5gREI1foajYaYU2Vg==}
@@ -2481,6 +2490,9 @@ packages:
     resolution: {integrity: sha512-EvGK8EJ3DhaHfbRlETOWAS5pO9MZITeauHKJyb8wyajUfQUenkIg2MvLDTZ4T/TgIcm3HU0TFBgWWboAZ30UHg==}
     engines: {node: '>=18'}
 
+  xml@1.0.1:
+    resolution: {integrity: sha512-huCv9IH9Tcf95zuYCsQraZtWnJvBtLVE0QHMOs8bWyZAFZNDcYjsPq1nEx8jKA9y+Beo9v+7OBPRisQTjinQMw==}
+
   xmlchars@2.2.0:
     resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
 
@@ -3218,6 +3230,10 @@ snapshots:
   '@types/unist@3.0.3': {}
 
   '@types/ws@8.18.1':
+    dependencies:
+      '@types/node': 24.10.1
+
+  '@types/xml@1.0.11':
     dependencies:
       '@types/node': 24.10.1
 
@@ -4805,6 +4821,8 @@ snapshots:
   ws@8.18.3: {}
 
   xml-name-validator@5.0.0: {}
+
+  xml@1.0.1: {}
 
   xmlchars@2.2.0: {}
 
