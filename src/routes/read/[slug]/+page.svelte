@@ -10,7 +10,8 @@
 </script>
 
 {#await data.blog then blog}
-	<h1>{blog.id}</h1>
+	<h1>{blog.title}</h1>
+	<p>{blog.description}</p>
 	<br />
 	<Markdown {carta} value={blog.content} />
 {/await}

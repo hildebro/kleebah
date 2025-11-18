@@ -9,7 +9,7 @@
 {#await data.blogs then blogs}
 	{#each blogs as blog (blog.id)}
 		<div>
-			<a href={resolve('/read/[slug]', {slug: blog.id})}>{blog.id}</a>
+			<a href={resolve('/read/[slug]', {slug: blog.id})}>{blog.title}</a>
 		</div>
 	{/each}
 {/await}

@@ -12,19 +12,21 @@ const client = createClient({ url: env.DATABASE_URL });
 
 export const db = drizzle(client, { schema });
 
-export const createPosting = async (content: string) => {
-  await db.insert(posting).values({id: generateUUID(), content }).execute();
-}
+export const createPosting = async (title: string, description: string, content: string) => {
+  await db.insert(posting).values({ id: generateUUID(), title, description, content }).execute();
+};
 
 export const findAllPostings = async () => {
   return db.query.posting.findMany().execute();
-}
+};
 
 export const findPosting = async (id: string) => {
-  return db.query.posting.findFirst({
-    where: eq(posting.id, id)
-  }).execute();
-}
+  return db.query.posting
+    .findFirst({
+      where: eq(posting.id, id)
+    })
+    .execute();
+};
 
 function generateUUID() {
   // ID with 120 bits of entropy, or about the same as UUID v4.

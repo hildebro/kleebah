@@ -15,7 +15,11 @@ export const actions: Actions = {
       return fail(422)
     }
 
-    await createPosting(content as string)
+    await createPosting(
+      formData?.title as string,
+      formData?.description as string,
+      content as string
+    )
 
     return redirect(302, resolve('/'))
   },

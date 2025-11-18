@@ -15,6 +15,13 @@
       "when": 1763330956765,
       "tag": "0001_thankful_colleen_wing",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1763504747587,
+      "tag": "0002_rainy_rocket_raccoon",
+      "breakpoints": true
     }
   ]
 }

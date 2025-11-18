@@ -13,6 +13,8 @@
 <h1>Write a blog</h1>
 <br/>
 <form method="post">
+	<input type="text" name="title" />
+	<textarea name="description"></textarea>
 	<input type="hidden" name="content" {value} />
 	<button type="submit">Save post</button>
 </form>
