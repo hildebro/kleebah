@@ -24,10 +24,16 @@ Accessible software to share blogs, vlogs, links or anything else without being 
   - [ ] Add multi-select field to subscriber CRUD
   - [ ] Option on private blog entries to define required roles
   - [ ] Update RSS feed to consider roles
+- [ ] `docs` folder to host a static explainer website in github pages
 
 ### Post 1.0
-- [ ] `docs` folder to host a static explainer website
-- [ ] Demo instance on the static explainer website
+- [ ] Demo instance, linked on the explainer website
+- [ ] Support for `draft` / `hidden` flag on postings
+- [ ] Backups
+  - [ ] Simple download of files and database in a tarball
+  - [ ] Restore from tarball backup
+  - [ ] Automated backup solution (maybe SFTP or Borg)
+- [ ] Automated
 - [ ] Cache blog access
   - [ ] Used for RSS feed and web list of blogs
   - [ ] Invalidated based on role change (on subscriber or blog level)
