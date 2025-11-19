@@ -7,7 +7,7 @@
 		sanitizer: DOMPurify.sanitize
 	});
 
-	let value = $state('');
+	let contentValue = $state('');
 </script>
 
 <h1 class="font-bold text-2xl text-center mt-12">Write a blog</h1>
@@ -19,8 +19,8 @@
 	<textarea class="flex h-24 px-4 rounded focus:outline-none focus:ring-2 resize-none"
 						name="description"></textarea>
 	<div class="font-semibold text-xs ">Content</div>
-	<MarkdownEditor bind:value {carta} />
-	<input type="hidden" name="content" {value} />
+	<MarkdownEditor bind:value={contentValue} {carta} />
+	<input type="hidden" name="content" value={contentValue} />
 	<button class="h-12 w-64 bg-blue-600 rounded font-semibold text-sm text-blue-100 hover:bg-blue-700"
 					type="submit">
 		Save post
