@@ -9,9 +9,9 @@
 	let { data } = $props();
 </script>
 
-{#await data.blog then blog}
-	<h1>{blog.title}</h1>
-	<p>{blog.description}</p>
+<article class="prose lg:prose-xl">
+	<h1>{data.blog.title}</h1>
+	<p>{data.blog.description}</p>
 	<br />
-	<Markdown {carta} value={blog.content} />
-{/await}
+	<Markdown {carta} value={data.blog.content} />
+</article>
