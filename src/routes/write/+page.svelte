@@ -10,15 +10,22 @@
 	let value = $state('');
 </script>
 
-<h1>Write a blog</h1>
-<br />
-<form method="post">
-	<input type="text" name="title" />
-	<textarea name="description"></textarea>
+<h1 class="font-bold text-2xl text-center mt-12">Write a blog</h1>
+<form class="flex flex-col items-stretch bg-white rounded shadow-lg p-12 gap-3" method="post">
+	<label class="font-semibold text-xs" for="title">Title</label>
+	<input class="flex h-12 px-4 rounded focus:outline-none focus:ring-2"
+				 type="text" name="title">
+	<label class="font-semibold text-xs " for="description">Description (optional)</label>
+	<textarea class="flex h-24 px-4 rounded focus:outline-none focus:ring-2 resize-none"
+						name="description"></textarea>
+	<div class="font-semibold text-xs ">Content</div>
+	<MarkdownEditor bind:value {carta} />
 	<input type="hidden" name="content" {value} />
-	<button type="submit">Save post</button>
+	<button class="h-12 w-64 bg-blue-600 rounded font-semibold text-sm text-blue-100 hover:bg-blue-700"
+					type="submit">
+		Save post
+	</button>
 </form>
-<MarkdownEditor bind:value {carta} />
 
 <style>
     @reference "../../app.css";
