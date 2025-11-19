@@ -11,7 +11,7 @@
 </script>
 
 <h1>Write a blog</h1>
-<br/>
+<br />
 <form method="post">
 	<input type="text" name="title" />
 	<textarea name="description"></textarea>
@@ -21,7 +21,8 @@
 <MarkdownEditor bind:value {carta} />
 
 <style>
-    /* Or in global stylesheet */
+    @reference "../../app.css";
+
     /* Set your monospace font */
     /* Required to have the editor working correctly! */
     :global(.carta-font-code) {
@@ -29,5 +30,13 @@
         font-size: 1.1rem;
         line-height: 1.1rem;
         letter-spacing: normal;
+    }
+
+    :global(.carta-renderer) {
+        @apply prose prose-slate lg:prose-xl;
+    }
+
+    :global(.dark .carta-renderer) {
+        @apply prose-invert;
     }
 </style>
