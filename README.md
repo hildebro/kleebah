@@ -56,6 +56,13 @@ Accessible software to share blogs, vlogs, links or anything else without being 
 - [ ] Writer CRUD (can write blogs, but not change admin settings)
 - [ ] Public API
 - [ ] Custom feed within the app as RSS feed alternative
+- [ ] Most dead simple way to find people to follow
+  - [ ] Optional phone number field in the settings
+  - [ ] Phone number is hashed, then sent to some central server with database, along with blog URL
+  - [ ] Anyone who wants to find all of their friends' blogs can give access to their address book on phone
+  - [ ] App will then hash all of the numbers and ask central server to give blog URLs for each
+  - [ ] User can then simply subscribe to the public blog or ask for private blog access
+  - [ ] Option to change the central server endpoint, so different communities can have their own private ledgers
 - [ ] Webfinger integration
 
 ## Tech Stack 
