@@ -51,6 +51,8 @@
 	function updateStatus(id, status) {
 		uploading = uploading.map(u => u.id === id ? { ...u, status } : u);
 	}
+
+	let { data } = $props();
 </script>
 
 <h1 class="font-bold text-2xl text-center mt-12">Write a blog</h1>
@@ -76,6 +78,11 @@
 				<li class:success={item.status === 'Done'} class:error={item.status === 'Failed' || item.status === 'Error'}>
 					{item.name}: <strong>{item.status}</strong>
 				</li>
+			{/each}
+		</ul>
+		<ul>
+			{#each data.filenames as filename}
+				<li>{filename}</li>
 			{/each}
 		</ul>
 	</div>
@@ -113,22 +120,31 @@
         margin: 2rem auto;
         font-family: sans-serif;
     }
+
     input {
         margin-bottom: 1rem;
         padding: 10px;
         border: 1px solid #ccc;
         width: 100%;
     }
+
     ul {
         list-style: none;
         padding: 0;
     }
+
     li {
         background: #f4f4f4;
         margin: 5px 0;
         padding: 8px;
         border-radius: 4px;
     }
-    .success { color: green; }
-    .error { color: red; }
+
+    .success {
+        color: green;
+    }
+
+    .error {
+        color: red;
+    }
 </style>
