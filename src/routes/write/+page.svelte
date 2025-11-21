@@ -61,45 +61,46 @@
 </script>
 
 <h1 class="font-bold text-2xl text-center mt-12">Write a blog</h1>
-<form class="flex flex-col items-stretch bg-white rounded shadow-lg p-12 gap-3" method="post">
+<form class="flex flex-col items-stretch rounded shadow-lg p-12 gap-3" method="post">
 	<label class="font-semibold text-xs" for="title">Title</label>
 	<input class="flex h-12 px-4 rounded focus:outline-none focus:ring-2"
 				 type="text" name="title">
 	<label class="font-semibold text-xs " for="description">Description (optional)</label>
 	<textarea class="flex h-24 px-4 rounded focus:outline-none focus:ring-2 resize-none"
 						name="description"></textarea>
-	<div class="uploader">
-		<h2>Raw Image Uploader</h2>
-
+	<label
+		class="w-36 py-1 px-3 rounded bg-blue-500 text-blue-100 hover:bg-blue-700 text-xs font-semibold focus:outline-none focus:ring-2 hover:cursor-pointer text-center"
+	>
+		<span>Upload an image</span>
 		<input
 			type="file"
 			multiple
 			accept="image/*"
 			onchange={handleUpload}
+			class="sr-only"
 		/>
+	</label>
 
+	<div>
 		{#if uploading}
-			<div>Loading...</div>
+			<div>Uploading...</div>
 		{/if}
 		{#if uploadError}
 			<div>{uploadError}</div>
 		{/if}
 
-		{#key 'asd'}
-			<ul>
-				{#each data.filenames as filename}
-					<li>
-						<button
-							type="button"
-							class="bg-gray-100 hover:bg-gray-200"
-							onclick={() => addToContent(filename)}
-						>
-							{filename}
-						</button>
-					</li>
-				{/each}
-			</ul>
-		{/key}
+		Uploaded images: {#if data.filenames.length === 0}none{/if}
+		<div class="flex flex-col gap-2">
+			{#each data.filenames as filename}
+				<button
+					type="button"
+					class="bg-gray-100 hover:bg-gray-200"
+					onclick={() => addToContent(filename)}
+				>
+					{filename}
+				</button>
+			{/each}
+		</div>
 	</div>
 	<div class="font-semibold text-xs ">Content</div>
 	<MarkdownEditor bind:value={contentValue} {carta} />
@@ -128,37 +129,5 @@
 
     :global(.dark .carta-renderer) {
         @apply prose-invert;
-    }
-
-    .uploader {
-        max-width: 500px;
-        margin: 2rem auto;
-        font-family: sans-serif;
-    }
-
-    input {
-        margin-bottom: 1rem;
-        padding: 10px;
-        border: 1px solid #ccc;
-        width: 100%;
-    }
-
-    ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    li {
-        margin: 5px 0;
-        padding: 8px;
-        border-radius: 4px;
-    }
-
-    .success {
-        color: green;
-    }
-
-    .error {
-        color: red;
     }
 </style>

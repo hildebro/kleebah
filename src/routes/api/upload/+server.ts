@@ -3,7 +3,6 @@ import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 
 export async function POST({ request }) {
-
   try {
     // 1. Parse the FormData from the request
     const formData = await request.formData();
