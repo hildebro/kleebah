@@ -2,6 +2,8 @@
 	import { Carta, MarkdownEditor } from 'carta-md';
 	import 'carta-md/default.css';
 	import DOMPurify from 'isomorphic-dompurify';
+	import { invalidateAll } from '$app/navigation';
+	import { resolve } from '$app/paths';
 
 	const carta = new Carta({
 		sanitizer: DOMPurify.sanitize
@@ -9,7 +11,13 @@
 
 	let contentValue = $state('');
 
-	let uploading = []; // To track upload status for UI feedback
+	const addToContent = (filename: string) => {
+		const apiRoute = resolve(`/cdn/new/${filename}`);
+		contentValue += `\n![Alt Text](${apiRoute})`;
+	};
+
+	let uploading = $state(false);
+	let uploadError = $state('');
 
 	async function handleUpload(event) {
 		const files = event.target.files;
@@ -17,7 +25,7 @@
 
 		// Iterate over the FileList
 		for (const file of files) {
-			uploadFile(file);
+			await uploadFile(file);
 		}
 
 		// Clear input so the same file can be selected again if needed
@@ -25,9 +33,7 @@
 	}
 
 	async function uploadFile(file) {
-		// Add to local state for UI feedback
-		const uploadId = Math.random().toString(36);
-		uploading = [...uploading, { id: uploadId, name: file.name, status: 'Uploading...' }];
+		uploading = true;
 
 		const formData = new FormData();
 		formData.append('file', file);
@@ -39,17 +45,16 @@
 			});
 
 			if (response.ok) {
-				updateStatus(uploadId, 'Done');
+				// Force reload data.
+				await invalidateAll();
 			} else {
-				updateStatus(uploadId, 'Failed');
+				uploadError = response.statusText;
 			}
 		} catch (error) {
-			updateStatus(uploadId, 'Error');
+			uploadError = error as string;
+		} finally {
+			uploading = false;
 		}
-	}
-
-	function updateStatus(id, status) {
-		uploading = uploading.map(u => u.id === id ? { ...u, status } : u);
 	}
 
 	let { data } = $props();
@@ -73,18 +78,28 @@
 			onchange={handleUpload}
 		/>
 
-		<ul>
-			{#each uploading as item}
-				<li class:success={item.status === 'Done'} class:error={item.status === 'Failed' || item.status === 'Error'}>
-					{item.name}: <strong>{item.status}</strong>
-				</li>
-			{/each}
-		</ul>
-		<ul>
-			{#each data.filenames as filename}
-				<li>{filename}</li>
-			{/each}
-		</ul>
+		{#if uploading}
+			<div>Loading...</div>
+		{/if}
+		{#if uploadError}
+			<div>{uploadError}</div>
+		{/if}
+
+		{#key 'asd'}
+			<ul>
+				{#each data.filenames as filename}
+					<li>
+						<button
+							type="button"
+							class="bg-gray-100 hover:bg-gray-200"
+							onclick={() => addToContent(filename)}
+						>
+							{filename}
+						</button>
+					</li>
+				{/each}
+			</ul>
+		{/key}
 	</div>
 	<div class="font-semibold text-xs ">Content</div>
 	<MarkdownEditor bind:value={contentValue} {carta} />
@@ -134,7 +149,6 @@
     }
 
     li {
-        background: #f4f4f4;
         margin: 5px 0;
         padding: 8px;
         border-radius: 4px;
