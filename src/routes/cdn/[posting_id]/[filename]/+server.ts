@@ -67,8 +67,9 @@ export async function GET({ url }) {
       }
     })
   } catch (e) {
+    const fileError = e as { code: string };
     // If the file doesn't exist, throw a 404 error
-    if (e.code === 'ENOENT') {
+    if (fileError.code === 'ENOENT') {
       throw error(404, 'File Not Found')
     }
     // Throw a 500 error for any other file reading issue
