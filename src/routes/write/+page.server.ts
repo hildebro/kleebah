@@ -4,6 +4,7 @@ import { fail, redirect } from '@sveltejs/kit'
 import { createPosting } from '$lib/server/db'
 import * as fs from 'node:fs'
 import path from 'path'
+import { moveNewImages } from '$lib/server/cdn.ts'
 
 const DATA_FILE_PATH = path.join(process.cwd(), 'data', 'new')
 
@@ -21,11 +22,12 @@ export const actions: Actions = {
       return fail(422)
     }
 
-    await createPosting(
+    const id = await createPosting(
       formData?.title as string,
       formData?.description as string,
       content as string
     )
+    moveNewImages(id)
 
     return redirect(302, resolve('/'))
   }

@@ -10,7 +10,7 @@ Accessible software to share blogs, vlogs, links or anything else without being 
 - [x] Markdown editor for writing blogs
 - [x] Blog viewer
 - [x] RSS feed
-- [ ] Image upload
+- [x] Image upload
 - [ ] Authentication with optional 2FA
 - [ ] Proper Github releases
 - [ ] Automatic deployment strategy
