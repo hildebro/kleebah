@@ -40,6 +40,7 @@ Accessible software to share blogs, vlogs, links or anything else without being 
 - [ ] Alternative to classic blogs
   - [ ] Link post
   - [ ] Image (carousel) post
+  - [ ] Allow embedding of carousel in classic blog as well
 - [ ] Option to switch between Markdown and HTML blog editor
 - [ ] Blog templates
 - [ ] Email support (Mailgun or Mailjet)
