@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
+  import { resolve } from '$app/paths'
 </script>
 
 <h1>Welcome to Kleebah</h1>
 <a href={resolve('/write')}>Write a blog</a>
-<br/>
+<br />
 <a href={resolve('/read')}>Read blogs</a>
-<br/>
-<br/>
+<br />
+<br />
 <a href={resolve('/feed.xml')}>RSS Feed</a>
