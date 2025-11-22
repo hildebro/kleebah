@@ -9,6 +9,10 @@ import { moveNewImages } from '$lib/server/cdn.ts'
 const DATA_FILE_PATH = path.join(process.cwd(), 'data', 'new')
 
 export const load: PageServerLoad = async () => {
+  if (!fs.existsSync(DATA_FILE_PATH)) {
+    return { filenames: [] }
+  }
+
   const filenames = fs.readdirSync(DATA_FILE_PATH)
 
   return { filenames }

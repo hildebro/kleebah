@@ -7,6 +7,11 @@ export const moveNewImages = (id: string) => {
   const newDataDirectory = path.join(DATA_DIRECTORY, 'new')
   const idDataDirectory = path.join(DATA_DIRECTORY, id)
 
+  // Nothing to do, if no new images are present
+  if (!fs.existsSync(newDataDirectory) || fs.readdirSync(newDataDirectory).length === 0) {
+    return
+  }
+
   fs.mkdirSync(idDataDirectory)
 
   const filenames = fs.readdirSync(newDataDirectory)
