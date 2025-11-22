@@ -8,7 +8,7 @@ export const posting = sqliteTable('posting', {
   description: text(),
   pubDate: text()
     .notNull()
-    .default(sql`(CURRENT_DATE)`)
+    .default(sql`(CURRENT_TIMESTAMP)`)
 })
 
 export type Posting = typeof posting.$inferSelect
