@@ -1,4 +1,13 @@
 {
-	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"hello_world": "Hello, {name} from en!"
+  "create_posting": "Write a post",
+  "create_posting_content": "Content",
+  "create_posting_description": "Description (optional)",
+  "create_posting_save": "Save post",
+  "create_posting_title": "Title",
+  "create_posting_upload": "Upload images",
+  "create_posting_upload_in_progress": "Uploading...",
+  "create_posting_upload_list": "Uploaded images:",
+  "headline": "Welcome to Kleebah",
+  "read_postings": "Read posts",
+  "rss_feed": "RSS feed"
 }

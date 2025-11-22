@@ -4,6 +4,7 @@
   import DOMPurify from 'isomorphic-dompurify'
   import { invalidateAll } from '$app/navigation'
   import { resolve } from '$app/paths'
+  import * as m from '$lib/paraglide/messages'
 
   const carta = new Carta({
     sanitizer: DOMPurify.sanitize
@@ -60,11 +61,11 @@
   let { data } = $props()
 </script>
 
-<h1 class="mt-12 text-center text-2xl font-bold">Write a blog</h1>
+<h1 class="mt-12 text-center text-2xl font-bold">{m.create_posting()}</h1>
 <form class="flex flex-col items-stretch gap-3 rounded p-12 shadow-lg" method="post">
-  <label class="text-xs font-semibold" for="title">Title</label>
+  <label class="text-xs font-semibold" for="title">{m.create_posting_title()}</label>
   <input class="flex h-12 rounded px-4 focus:ring-2 focus:outline-none" type="text" name="title" />
-  <label class="text-xs font-semibold" for="description">Description (optional)</label>
+  <label class="text-xs font-semibold" for="description">{m.create_posting_description()}</label>
   <textarea
     class="flex h-24 resize-none rounded px-4 focus:ring-2 focus:outline-none"
     name="description"
@@ -72,39 +73,41 @@
   <label
     class="w-36 rounded bg-blue-500 px-3 py-1 text-center text-xs font-semibold text-blue-100 hover:cursor-pointer hover:bg-blue-700 focus:ring-2 focus:outline-none"
   >
-    <span>Upload an image</span>
+    <span>{m.create_posting_upload()}</span>
     <input type="file" multiple accept="image/*" onchange={handleUpload} class="sr-only" />
   </label>
 
   <div>
     {#if uploading}
-      <div>Uploading...</div>
+      <div>{m.create_posting_upload_in_progress()}</div>
     {/if}
     {#if uploadError}
       <div>{uploadError}</div>
     {/if}
 
-    Uploaded images: {#if data.filenames.length === 0}none{/if}
-    <div class="flex flex-col gap-2">
-      {#each data.filenames as filename}
-        <button
-          type="button"
-          class="bg-gray-100 hover:bg-gray-200"
-          onclick={() => addToContent(filename)}
-        >
-          {filename}
-        </button>
-      {/each}
-    </div>
+    {#if data.filenames.length > 0}
+      {m.create_posting_upload_list()}
+      <div class="flex flex-col gap-2">
+        {#each data.filenames as filename (filename)}
+          <button
+            type="button"
+            class="bg-gray-100 hover:bg-gray-200"
+            onclick={() => addToContent(filename)}
+          >
+            {filename}
+          </button>
+        {/each}
+      </div>
+    {/if}
   </div>
-  <div class="text-xs font-semibold">Content</div>
+  <div class="text-xs font-semibold">{m.create_posting_content()}</div>
   <MarkdownEditor bind:value={contentValue} {carta} />
   <input type="hidden" name="content" value={contentValue} />
   <button
     class="h-12 w-64 rounded bg-blue-600 text-sm font-semibold text-blue-100 hover:bg-blue-700"
     type="submit"
   >
-    Save post
+    {m.create_posting_save()}
   </button>
 </form>
 

@@ -1,11 +1,12 @@
 <script lang="ts">
   import { resolve } from '$app/paths'
+  import * as m from '$lib/paraglide/messages'
 </script>
 
-<h1>Welcome to Kleebah</h1>
-<a href={resolve('/write')}>Write a blog</a>
+<h1>{m.headline()}</h1>
+<a href={resolve('/write')}>{m.create_posting()}</a>
 <br />
-<a href={resolve('/read')}>Read blogs</a>
+<a href={resolve('/read')}>{m.read_postings()}</a>
 <br />
 <br />
-<a href={resolve('/feed.xml')}>RSS Feed</a>
+<a href={resolve('/feed.xml')}>{m.rss_feed()}</a>
