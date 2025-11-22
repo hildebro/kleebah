@@ -1,4 +1,4 @@
-import { fetchImage } from '$lib/server/cdn.ts'
+import { fetchImage } from '$lib/server/filesystem.ts'
 import { fileTypeFromBuffer } from 'file-type'
 
 export async function GET({ params }) {

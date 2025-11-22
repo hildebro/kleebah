@@ -13,6 +13,15 @@ export const IMAGE_MIME_TYPES = [
 
 const DATA_DIRECTORY = path.join(process.cwd(), 'data')
 
+export const fetchFilenames = () => {
+  const newDataDirectory = path.join(DATA_DIRECTORY, 'new')
+  if (!fs.existsSync(newDataDirectory)) {
+    return []
+  }
+
+  return fs.readdirSync(newDataDirectory)
+}
+
 export const fetchImage = async (postingId: string, filename: string) => {
   const pathToFile = path.join(DATA_DIRECTORY, postingId, filename)
 

@@ -5,7 +5,7 @@ import { env } from '$env/dynamic/private'
 import { posting } from './schema'
 import { encodeBase32LowerCase } from '@oslojs/encoding'
 import { eq } from 'drizzle-orm'
-import { replaceImageRefs } from '$lib/server/cdn.ts'
+import { replaceImageRefs } from '$lib/server/filesystem.ts'
 
 if (!env.DATABASE_URL) throw new Error('DATABASE_URL is not set')
 

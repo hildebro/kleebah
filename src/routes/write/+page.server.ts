@@ -2,20 +2,10 @@ import type { Actions, PageServerLoad } from './$types'
 import { resolve } from '$app/paths'
 import { fail, redirect } from '@sveltejs/kit'
 import { createPosting } from '$lib/server/db'
-import * as fs from 'node:fs'
-import path from 'path'
-import { moveNewImages } from '$lib/server/cdn.ts'
-
-const DATA_FILE_PATH = path.join(process.cwd(), 'data', 'new')
+import { fetchFilenames, moveNewImages } from '$lib/server/filesystem.ts'
 
 export const load: PageServerLoad = async () => {
-  if (!fs.existsSync(DATA_FILE_PATH)) {
-    return { filenames: [] }
-  }
-
-  const filenames = fs.readdirSync(DATA_FILE_PATH)
-
-  return { filenames }
+  return { filenames: fetchFilenames() }
 }
 
 export const actions: Actions = {

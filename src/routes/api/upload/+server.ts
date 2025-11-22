@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit'
 import { z } from 'zod'
-import { IMAGE_MIME_TYPES, saveImage } from '$lib/server/cdn.ts'
+import { IMAGE_MIME_TYPES, saveImage } from '$lib/server/filesystem.ts'
 
 const fileSchema = z.object({
   file: z.file().mime(IMAGE_MIME_TYPES)
