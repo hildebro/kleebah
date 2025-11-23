@@ -28,6 +28,7 @@ Accessible software to share blogs, vlogs, links or anything else without being 
 
 ### Post 1.0
 - [ ] Demo instance, linked on the explainer website
+- [ ] Use environment variables to set up initial admin automatically
 - [ ] Support for `draft` / `hidden` flag on postings
 - [ ] Backups
   - [ ] Simple download of files and database in a tarball
