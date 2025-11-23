@@ -2,7 +2,7 @@ import { drizzle } from 'drizzle-orm/libsql'
 import { createClient } from '@libsql/client'
 import * as schema from './schema'
 import { env } from '$env/dynamic/private'
-import { posting } from './schema'
+import { admin, posting, user } from './schema'
 import { encodeBase32LowerCase } from '@oslojs/encoding'
 import { eq } from 'drizzle-orm'
 import { replaceImageRefs } from '$lib/server/filesystem.ts'
@@ -12,6 +12,18 @@ if (!env.DATABASE_URL) throw new Error('DATABASE_URL is not set')
 const client = createClient({ url: env.DATABASE_URL })
 
 export const db = drizzle(client, { schema })
+
+export const findAdmins = async () => {
+  return db.query.admin.findMany().execute()
+}
+
+export const createAdmin = async (username: string, passwordHash: string) => {
+  const id = generateUUID()
+  await db.insert(user).values({ id, username, passwordHash }).execute()
+  await db.insert(admin).values({ id }).execute()
+
+  return id
+}
 
 export const createPosting = async (title: string, description: string, content: string) => {
   const id = generateUUID()

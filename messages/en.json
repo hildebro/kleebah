@@ -9,5 +9,10 @@
   "create_posting_upload_list": "Uploaded images:",
   "headline": "Welcome to Kleebah",
   "read_postings": "Read posts",
-  "rss_feed": "RSS feed"
+  "rss_feed": "RSS feed",
+  "welcome": "Welcome to Kleebah",
+  "welcome_commit": "Create admin",
+  "welcome_text": "Please create an admin account to continue.",
+  "welcome_username": "Name",
+  "welcome_password": "Password"
 }

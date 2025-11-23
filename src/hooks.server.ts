@@ -1,7 +1,9 @@
 import { sequence } from '@sveltejs/kit/hooks'
 import * as auth from '$lib/server/auth'
-import type { Handle } from '@sveltejs/kit'
+import  { type Handle, redirect } from '@sveltejs/kit'
 import { paraglideMiddleware } from '$lib/paraglide/server'
+import { findAdmins } from '$lib/server/db'
+import * as appPath from '$app/paths'
 
 const handleParaglide: Handle = ({ event, resolve }) =>
   paraglideMiddleware(event.request, ({ request, locale }) => {
@@ -13,6 +15,11 @@ const handleParaglide: Handle = ({ event, resolve }) =>
   })
 
 const handleAuth: Handle = async ({ event, resolve }) => {
+  const admins = await findAdmins()
+  if (admins.length === 0 && event.route.id !== '/setup') {
+    redirect(302, appPath.resolve('/setup'))
+  }
+
   const sessionToken = event.cookies.get(auth.sessionCookieName)
 
   if (!sessionToken) {
