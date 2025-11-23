@@ -8,6 +8,8 @@
   "create_posting_upload_in_progress": "Uploading...",
   "create_posting_upload_list": "Uploaded images:",
   "headline": "Welcome to Kleebah",
+  "login_commit": "Login",
+  "login_text": "You are not logged in.",
   "read_postings": "Read posts",
   "rss_feed": "RSS feed",
   "welcome": "Welcome to Kleebah",
