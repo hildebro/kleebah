@@ -4,7 +4,8 @@ import { sql } from 'drizzle-orm'
 export const user = sqliteTable('user', {
   id: text().primaryKey(),
   username: text().notNull().unique(),
-  passwordHash: text('password_hash').notNull()
+  passwordHash: text('password_hash').notNull(),
+  twoFactorSecret: text('two_factor_secret')
 })
 
 export type User = typeof user.$inferSelect

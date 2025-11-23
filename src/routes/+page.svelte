@@ -10,3 +10,6 @@
 <br />
 <br />
 <a href={resolve('/feed.xml')}>{m.rss_feed()}</a>
+<br />
+<br />
+<a href={resolve('/settings')}>{m.settings()}</a>

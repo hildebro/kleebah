@@ -11,7 +11,7 @@ Accessible software to share blogs, vlogs, links or anything else without being 
 - [x] Blog viewer
 - [x] RSS feed
 - [x] Image upload
-- [ ] Authentication with optional 2FA
+- [x] Authentication with optional 2FA
 - [ ] Proper Github releases
 - [ ] Automatic deployment strategy
 - [ ] Subscriber CRUD (username, email, password)

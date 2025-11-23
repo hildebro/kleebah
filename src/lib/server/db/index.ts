@@ -33,6 +33,10 @@ export const createAdmin = async (username: string, passwordHash: string) => {
   return id
 }
 
+export const saveTwoFactorSecret = async (userId: string, hexSecret: string) => {
+  await db.update(user).set({ twoFactorSecret: hexSecret }).where(eq(user.id, userId)).execute()
+}
+
 export const createPosting = async (title: string, description: string, content: string) => {
   const id = generateUUID()
 
