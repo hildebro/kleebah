@@ -43,6 +43,13 @@
       "when": 1763928916746,
       "tag": "0005_closed_lilandra",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1764013583074,
+      "tag": "0006_keen_bloodstrike",
+      "breakpoints": true
     }
   ]
 }

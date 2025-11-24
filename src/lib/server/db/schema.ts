@@ -14,7 +14,7 @@ export const admin = sqliteTable('admin', {
   id: text()
     .notNull()
     .references(() => user.id)
-    .primaryKey(),
+    .primaryKey()
 })
 
 export type Admin = typeof admin.$inferSelect
@@ -24,7 +24,10 @@ export const session = sqliteTable('session', {
   userId: text('user_id')
     .notNull()
     .references(() => user.id),
-  expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
+  expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
+  twoFactorVerified: integer('two_factor_verified', { mode: 'boolean' })
+    .notNull()
+    .default(false)
 })
 
 export type Session = typeof session.$inferSelect

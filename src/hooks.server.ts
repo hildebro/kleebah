@@ -41,6 +41,15 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 
   event.locals.user = user
   event.locals.session = session
+
+  if (
+    !event.locals.session?.twoFactorVerified
+    && event.locals.user?.twoFactorSecret
+    && event.route.id !== '/login/2fa'
+  ) {
+    redirect(302, appPath.resolve('/login/2fa'))
+  }
+
   return resolve(event)
 }
 

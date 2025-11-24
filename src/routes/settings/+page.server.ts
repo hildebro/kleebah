@@ -6,6 +6,7 @@ import type { Actions } from '../../../.svelte-kit/types/src/routes/setup/$types
 import { error } from '@sveltejs/kit'
 import { z } from 'zod'
 import { saveTwoFactorSecret } from '$lib/server/db'
+import { setTwoFactorVerified } from '$lib/server/auth.ts'
 
 export const load: PageServerLoad = async (event) => {
   const twoFactorSecret = crypto.getRandomValues(new Uint8Array(20))
@@ -38,5 +39,6 @@ export const actions: Actions = {
     }
 
     await saveTwoFactorSecret(event.locals.user?.id as string, result.data.hexSecret)
+    await setTwoFactorVerified(event.locals.session?.id as string)
   }
 }

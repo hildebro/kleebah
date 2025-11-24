@@ -10,6 +10,7 @@
   "headline": "Welcome to Kleebah",
   "login_commit": "Login",
   "login_text": "You are not logged in.",
+  "login_2fa_text": "Please enter your one-time-password",
   "read_postings": "Read posts",
   "rss_feed": "RSS feed",
   "settings": "Settings",
