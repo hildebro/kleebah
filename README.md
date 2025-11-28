@@ -14,7 +14,7 @@ Accessible software to share blogs, vlogs, links or anything else without being 
 - [x] Authentication with optional 2FA
 - [x] Docker setup
 - [ ] Automatic deployment strategy
-- [ ] Proper Github releases
+- [x] Proper Github releases
 - [ ] Subscriber CRUD (username, email, password)
 - [ ] Option to make a blog entry private, limiting access to subscribers
 - [ ] Token generation per subscriber to receive private blog entries in their RSS feed
