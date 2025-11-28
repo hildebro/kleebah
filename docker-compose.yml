@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    container_name: kleebah_app
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    volumes:
+      # Maps the host "data" folder to the container
+      # This allows users to drop files in the host folder and the app sees them
+      - ./data:/app/data
+    environment:
+      # Ensure your app listens on all interfaces, not just localhost
+      - HOST=0.0.0.0
+      - PORT=5173
+      # Overwrite DB URL to ensure it lives in the persisted volume
+      - DATABASE_URL=file:./data/local.db

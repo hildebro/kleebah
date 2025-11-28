@@ -1,31 +1,30 @@
-FROM node:25-alpine AS base
+FROM node:20-alpine
+
 WORKDIR /app
+
+# 1. Install pnpm
 RUN npm install -g pnpm
 
-FROM base AS dev
-EXPOSE 5173
-# We set the cache to a writable location so pnpm doesn't crash when running as a non-root user
-ENV XDG_CACHE_HOME=/tmp/.pnpm-cache
-CMD ["/bin/sh", "-c", "pnpm install && pnpm run dev"]
+# 2. Copy manifest files first (for better caching)
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-FROM base AS build
-# Required for pnpm prune to work
-ENV CI=true
-COPY package.json pnpm-lock.yaml ./
+# 3. Install ALL dependencies (including devDependencies)
+# We need these so drizzle-kit can execute your TS config file
 RUN pnpm install --frozen-lockfile
+
+# 4. Copy the entire project source code
+# (Excluding what's in .dockerignore)
 COPY . .
+
+# 5. Build the app
 RUN pnpm build
-# Remove devDependencies to keep the image small
-RUN pnpm prune --prod
 
-FROM base AS prod
-ENV NODE_ENV=production
-# Create the data directory so permissions are correct
-RUN mkdir -p /app/data
-# Copy the built app from the build stage
-COPY --from=build /app/build ./build
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/package.json ./package.json
+# 6. Setup entrypoint
+RUN chmod +x entrypoint.sh
 
-EXPOSE 3000
-CMD ["node", "build/index.js"]
+# 7. Environment Setup
+ENV HOST=0.0.0.0
+ENV PORT=5173
+EXPOSE 5173
+
+ENTRYPOINT ["./entrypoint.sh"]

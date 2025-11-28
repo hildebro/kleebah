@@ -12,7 +12,7 @@ Accessible software to share blogs, vlogs, links or anything else without being 
 - [x] RSS feed
 - [x] Image upload
 - [x] Authentication with optional 2FA
-- [ ] Docker setup
+- [x] Docker setup
 - [ ] Automatic deployment strategy
 - [ ] Proper Github releases
 - [ ] Subscriber CRUD (username, email, password)
