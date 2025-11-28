@@ -6,7 +6,7 @@ WORKDIR /app
 RUN npm install -g pnpm
 
 # 2. Copy manifest files first (for better caching)
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml ./
 
 # 3. Install ALL dependencies (including devDependencies)
 # We need these so drizzle-kit can execute your TS config file
