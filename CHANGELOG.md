@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/hildebro/kleebah/compare/v0.2.0...v0.2.1) (2025-11-28)
+
+
+### Bug Fixes
+
+* dockerfile build error ([3abf6c2](https://github.com/hildebro/kleebah/commit/3abf6c23247a2bca3e367306eed1370666647cd5))
+
 # [0.2.0](https://github.com/hildebro/kleebah/compare/v0.1.0...v0.2.0) (2025-11-28)
 
 
