@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  release:
+    name: Semantic Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false # Important for the git plugin to push back securely
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # We still need to install project deps to ensure package-lock.json is valid
+      # and to allow any potential build scripts to run if you added them later.
+      - name: Install Project Dependencies
+        run: npm ci
+
+      - name: Run Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # We use -p to load the core tool AND the extra plugins we need
+        run: |
+          npx \
+          -p semantic-release \
+          -p @semantic-release/git \
+          -p @semantic-release/changelog \
+          semantic-release
