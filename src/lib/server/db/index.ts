@@ -31,6 +31,17 @@ export const createAdmin = async (username: string, passwordHash: string) => {
   return id
 }
 
+export const findSubscriber = async (id: string) => {
+  return db.query.subscriber
+    .findFirst({
+      with: {
+        user: true
+      },
+      where: eq(subscriber.id, id)
+    })
+    .execute()
+}
+
 export const findSubscribers = async () => {
   return db.query.subscriber
     .findMany({
@@ -45,6 +56,21 @@ export const createSubscriber = async (username: string, passwordHash: string) =
   const id = generateUUID()
   await db.insert(user).values({ id, username, passwordHash }).execute()
   await db.insert(subscriber).values({ id }).execute()
+}
+
+export const updateSubscriber = async (
+  id: string,
+  username: string,
+  passwordHash: string | undefined
+) => {
+  const updateValue: { username: string; passwordHash?: string | undefined } = {
+    username
+  }
+  if (passwordHash) {
+    updateValue['passwordHash'] = passwordHash
+  }
+
+  await db.update(user).set(updateValue).where(eq(user.id, id)).execute()
 }
 
 export const saveTwoFactorSecret = async (userId: string, hexSecret: string) => {
