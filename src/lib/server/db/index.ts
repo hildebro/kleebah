@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/libsql'
 import { createClient } from '@libsql/client'
 import * as schema from './schema'
-import { admin, posting, user } from './schema'
+import { admin, posting, subscriber, user } from './schema'
 import { env } from '$env/dynamic/private'
 import { encodeBase32LowerCase } from '@oslojs/encoding'
 import { eq } from 'drizzle-orm'
@@ -29,6 +29,22 @@ export const createAdmin = async (username: string, passwordHash: string) => {
   await db.insert(admin).values({ id }).execute()
 
   return id
+}
+
+export const findSubscribers = async () => {
+  return db.query.subscriber
+    .findMany({
+      with: {
+        user: true
+      }
+    })
+    .execute()
+}
+
+export const createSubscriber = async (username: string, passwordHash: string) => {
+  const id = generateUUID()
+  await db.insert(user).values({ id, username, passwordHash }).execute()
+  await db.insert(subscriber).values({ id }).execute()
 }
 
 export const saveTwoFactorSecret = async (userId: string, hexSecret: string) => {

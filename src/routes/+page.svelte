@@ -9,6 +9,9 @@
 <a href={resolve('/read')}>{m.read_postings()}</a>
 <br />
 <br />
+<a href={resolve('/subscriber')}>{m.subscribers()}</a>
+<br />
+<br />
 <a href={resolve('/feed.xml')}>{m.rss_feed()}</a>
 <br />
 <br />

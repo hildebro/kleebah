@@ -50,6 +50,13 @@
       "when": 1764013583074,
       "tag": "0006_keen_bloodstrike",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1764510476005,
+      "tag": "0007_nifty_moonstone",
+      "breakpoints": true
     }
   ]
 }

@@ -1,5 +1,5 @@
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { sql } from 'drizzle-orm'
+import { relations, sql } from 'drizzle-orm'
 
 export const user = sqliteTable('user', {
   id: text().primaryKey(),
@@ -18,6 +18,22 @@ export const admin = sqliteTable('admin', {
 })
 
 export type Admin = typeof admin.$inferSelect
+
+export const subscriber = sqliteTable('subscriber', {
+  id: text()
+    .notNull()
+    .references(() => user.id)
+    .primaryKey()
+})
+
+export type Subscriber = typeof subscriber.$inferSelect
+
+export const subscriberRelations = relations(subscriber, ({ one }) => ({
+  user: one(user, {
+    fields: [subscriber.id],
+    references: [user.id]
+  })
+}))
 
 export const session = sqliteTable('session', {
   id: text().primaryKey(),
