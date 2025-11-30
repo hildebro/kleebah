@@ -26,6 +26,7 @@ Accessible software to share blogs, vlogs, links or anything else without being 
   - [ ] Option on private blog entries to define required roles
   - [ ] Update RSS feed to consider roles
 - [ ] `docs` folder to host a static explainer website in github pages
+  - [ ] Wizard to find the optimal way of hosting for each user
 - [ ] Multi-blog instances with caddy docker, subdomain per blog
 
 ### Post 1.0
