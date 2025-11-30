@@ -11,6 +11,7 @@
 <br />
 <br />
 <h2>{m.subscribers_list()}</h2>
+{#if data.subscribers.length === 0}-{/if}
 <ul>
   {#each data.subscribers as subscriber (subscriber.id)}
     <li>

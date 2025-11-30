@@ -73,6 +73,13 @@ export const updateSubscriber = async (
   await db.update(user).set(updateValue).where(eq(user.id, id)).execute()
 }
 
+export const deleteSubscriber = async (
+  id: string
+) => {
+  await db.delete(subscriber).where(eq(subscriber.id, id)).execute()
+  await db.delete(user).where(eq(user.id, id)).execute()
+}
+
 export const saveTwoFactorSecret = async (userId: string, hexSecret: string) => {
   await db.update(user).set({ twoFactorSecret: hexSecret }).where(eq(user.id, userId)).execute()
 }

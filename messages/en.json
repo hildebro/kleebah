@@ -21,6 +21,7 @@
   "subscribers": "Subscribers",
   "subscribers_commit": "Save subscriber",
   "subscribers_create": "Add a subscriber",
+  "subscribers_delete": "Delete subscriber",
   "subscribers_edit_password": "Password (leave empty to keep existing value)",
   "subscribers_list": "Active subscribers",
   "welcome": "Welcome to Kleebah",
