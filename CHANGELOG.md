@@ -1,3 +1,12 @@
+# [0.3.0](https://github.com/hildebro/kleebah/compare/v0.2.1...v0.3.0) (2025-11-30)
+
+
+### Features
+
+* add subscribers + list subscribers ([0719736](https://github.com/hildebro/kleebah/commit/0719736ac1289f637f36d66ab6ed69e76087365b))
+* delete subscribers ([f4cd950](https://github.com/hildebro/kleebah/commit/f4cd950c10a34758c055e2ff64d4cdbf3cdc659e))
+* edit subscribers ([7182654](https://github.com/hildebro/kleebah/commit/7182654a152442e9e8fcbbb939471abd7f1dcc6d))
+
 ## [0.2.1](https://github.com/hildebro/kleebah/compare/v0.2.0...v0.2.1) (2025-11-28)
 
 
