@@ -1,7 +1,7 @@
 import { resolve } from '$app/paths'
 import { error, redirect } from '@sveltejs/kit'
-import { findPosting, updatePosting } from '$lib/server/db'
-import { fetchFilenames } from '$lib/server/filesystem.ts'
+import { deletePosting, findPosting, updatePosting } from '$lib/server/db'
+import { deleteFiles, fetchFilenames } from '$lib/server/filesystem.ts'
 import { z } from 'zod'
 import type {
   Actions,
@@ -27,8 +27,12 @@ const postSchema = z.object({
   content: z.string().nonempty()
 })
 
+const deletePostingSchema = z.object({
+  id: z.string().nonempty()
+})
+
 export const actions: Actions = {
-  default: async ({ request }) => {
+  update: async ({ request }) => {
     const formData = Object.fromEntries(await request.formData())
     const result = postSchema.safeParse(formData)
     if (!result.success) {
@@ -38,6 +42,18 @@ export const actions: Actions = {
     const post = result.data
 
     await updatePosting(post.id, post.title, post.description, post.content)
+
+    return redirect(302, resolve('/posting'))
+  },
+  delete: async ({ request }) => {
+    const formData = Object.fromEntries(await request.formData())
+    const result = deletePostingSchema.safeParse(formData)
+    if (!result.success) {
+      return error(422, result.error)
+    }
+
+    await deletePosting(result.data.id)
+    deleteFiles(result.data.id)
 
     return redirect(302, resolve('/posting'))
   }

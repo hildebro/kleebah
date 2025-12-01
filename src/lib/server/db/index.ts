@@ -101,6 +101,10 @@ export const updatePosting = async (
   await db.update(posting).set({ title, description, content }).where(eq(posting.id, id)).execute()
 }
 
+export const deletePosting = async (id: string) => {
+  await db.delete(posting).where(eq(posting.id, id)).execute()
+}
+
 export const findAllPostings = async () => {
   return db.query.posting.findMany().execute()
 }

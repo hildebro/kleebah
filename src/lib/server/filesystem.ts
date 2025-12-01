@@ -70,6 +70,16 @@ export const moveNewImages = (id: string) => {
   }
 }
 
+export const deleteFiles = (id: string) => {
+  const dataDirectory = path.join(DATA_DIRECTORY, id)
+  // Nothing to do, if no folder is present.
+  if (!fs.existsSync(dataDirectory)) {
+    return
+  }
+
+  fs.rmdirSync(dataDirectory)
+}
+
 /**
  * When writing blogs, new images are saved in `data/new/$filename` and referenced via
  * `cdn/new/$filename` in the content block. When the posting is saved and receives an ID, we
