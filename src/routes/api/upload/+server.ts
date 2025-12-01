@@ -4,7 +4,7 @@ import { IMAGE_MIME_TYPES, saveImage } from '$lib/server/filesystem.ts'
 
 const fileSchema = z.object({
   file: z.file().mime(IMAGE_MIME_TYPES),
-  posting_id: z.string()
+  posting_id: z.union([z.string().nonempty(), z.undefined()])
 })
 
 export async function POST({ request }) {
