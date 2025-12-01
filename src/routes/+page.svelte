@@ -4,7 +4,7 @@
 </script>
 
 <h1>{m.headline()}</h1>
-<a href={resolve('/write')}>{m.create_posting()}</a>
+<a href={resolve('/posting/create')}>{m.create_posting()}</a>
 <br />
 <a href={resolve('/read')}>{m.read_postings()}</a>
 <br />
