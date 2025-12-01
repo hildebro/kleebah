@@ -3,7 +3,8 @@ import { z } from 'zod'
 import { IMAGE_MIME_TYPES, saveImage } from '$lib/server/filesystem.ts'
 
 const fileSchema = z.object({
-  file: z.file().mime(IMAGE_MIME_TYPES)
+  file: z.file().mime(IMAGE_MIME_TYPES),
+  posting_id: z.string()
 })
 
 export async function POST({ request }) {
@@ -15,7 +16,7 @@ export async function POST({ request }) {
 
   try {
     const file = result.data.file
-    await saveImage(file)
+    await saveImage(file, result.data.posting_id)
 
     return json({ success: true })
   } catch (err) {

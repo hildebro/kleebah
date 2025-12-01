@@ -13,13 +13,13 @@ export const IMAGE_MIME_TYPES = [
 
 const DATA_DIRECTORY = path.join(process.cwd(), 'data')
 
-export const fetchFilenames = () => {
-  const newDataDirectory = path.join(DATA_DIRECTORY, 'new')
-  if (!fs.existsSync(newDataDirectory)) {
+export const fetchFilenames = (id: string = 'new') => {
+  const dataDirectory = path.join(DATA_DIRECTORY, id)
+  if (!fs.existsSync(dataDirectory)) {
     return []
   }
 
-  return fs.readdirSync(newDataDirectory)
+  return fs.readdirSync(dataDirectory)
 }
 
 export const fetchImage = async (postingId: string, filename: string) => {
@@ -38,8 +38,9 @@ export const fetchImage = async (postingId: string, filename: string) => {
   }
 }
 
-export const saveImage = async (file: File) => {
-  const uploadDir = path.join(DATA_DIRECTORY, 'new')
+export const saveImage = async (file: File, postingId: string|undefined) => {
+  const directoryPart = postingId && postingId.length > 0 ? postingId : 'new';
+  const uploadDir = path.join(DATA_DIRECTORY, directoryPart)
 
   if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true })

@@ -73,9 +73,7 @@ export const updateSubscriber = async (
   await db.update(user).set(updateValue).where(eq(user.id, id)).execute()
 }
 
-export const deleteSubscriber = async (
-  id: string
-) => {
+export const deleteSubscriber = async (id: string) => {
   await db.delete(subscriber).where(eq(subscriber.id, id)).execute()
   await db.delete(user).where(eq(user.id, id)).execute()
 }
@@ -92,6 +90,15 @@ export const createPosting = async (title: string, description: string, content:
   await db.insert(posting).values({ id, title, description, content: fixedRefContent }).execute()
 
   return id
+}
+
+export const updatePosting = async (
+  id: string,
+  title: string,
+  description: string,
+  content: string
+) => {
+  await db.update(posting).set({ title, description, content }).where(eq(posting.id, id)).execute()
 }
 
 export const findAllPostings = async () => {
