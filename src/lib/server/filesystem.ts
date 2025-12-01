@@ -77,7 +77,7 @@ export const deleteFiles = (id: string) => {
     return
   }
 
-  fs.rmdirSync(dataDirectory)
+  fs.rmSync(dataDirectory, { recursive: true, force: true })
 }
 
 /**
