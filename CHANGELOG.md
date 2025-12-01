@@ -1,3 +1,17 @@
+# [0.4.0](https://github.com/hildebro/kleebah/compare/v0.3.0...v0.4.0) (2025-12-01)
+
+
+### Bug Fixes
+
+* file deletion on post deletion ([70192a2](https://github.com/hildebro/kleebah/commit/70192a2087fae366703aa87017af2304a356250b))
+* image upload for post creation ([7866ad3](https://github.com/hildebro/kleebah/commit/7866ad325459dbcde652eedc23dd00b6ab7914b5))
+
+
+### Features
+
+* delete postings ([bcf5527](https://github.com/hildebro/kleebah/commit/bcf55278b17707a4b134f54203a32ede27d14f4b))
+* edit view for posting ([aaa22ce](https://github.com/hildebro/kleebah/commit/aaa22ce057a313cf8cfd7cfa2b26a3671ff157b4))
+
 # [0.3.0](https://github.com/hildebro/kleebah/compare/v0.2.1...v0.3.0) (2025-11-30)
 
 
