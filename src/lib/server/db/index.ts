@@ -23,6 +23,17 @@ export const findAdmins = async () => {
   return db.query.admin.findMany().execute()
 }
 
+export const findAdmin = async (id: string) => {
+  return db.query.admin
+    .findFirst({
+      with: {
+        user: true
+      },
+      where: eq(admin.id, id)
+    })
+    .execute()
+}
+
 export const createAdmin = async (username: string, passwordHash: string) => {
   const id = generateUUID()
   await db.insert(user).values({ id, username, passwordHash }).execute()

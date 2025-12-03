@@ -19,6 +19,13 @@ export const admin = sqliteTable('admin', {
 
 export type Admin = typeof admin.$inferSelect
 
+export const adminRelations = relations(admin, ({ one }) => ({
+  user: one(user, {
+    fields: [admin.id],
+    references: [user.id]
+  })
+}))
+
 export const subscriber = sqliteTable('subscriber', {
   id: text()
     .notNull()
