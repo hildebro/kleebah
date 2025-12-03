@@ -6,18 +6,14 @@
   import { resolve } from '$app/paths'
   import * as m from '$lib/paraglide/messages'
 
-  let { data } = $props()
-
   const carta = new Carta({
     sanitizer: DOMPurify.sanitize
   })
 
-  let titleValue = $state(data.posting.title)
-  let descriptionValue = $state(data.posting.description)
-  let contentValue = $state(data.posting.content)
+  let contentValue = $state('')
 
   const addToContent = (filename: string) => {
-    const apiRoute = resolve(`/cdn/${data.posting.id}/${filename}`)
+    const apiRoute = resolve(`/cdn/new/${filename}`)
     contentValue += `\n![Alt Text](${apiRoute})`
   }
 
@@ -44,7 +40,7 @@
     formData.append('file', file)
 
     try {
-      const response = await fetch('/api/upload', {
+      const response = await fetch(resolve('/(admin)/api/upload'), {
         method: 'POST',
         body: formData
       })
@@ -61,27 +57,19 @@
       uploading = false
     }
   }
+
+  let { data } = $props()
 </script>
 
 <h1 class="mt-12 text-center text-2xl font-bold">{m.create_posting()}</h1>
-<form
-  class="flex flex-col items-stretch gap-3 rounded p-12 shadow-lg"
-  method="post"
-  action="?/update"
->
-  <input type="hidden" name="id" value={data.posting.id} />
+<form class="flex flex-col items-stretch gap-3 rounded p-12 shadow-lg" method="post">
   <label class="text-xs font-semibold" for="title">{m.create_posting_title()}</label>
-  <input
-    class="flex h-12 rounded px-4 focus:ring-2 focus:outline-none"
-    type="text"
-    name="title"
-    value={titleValue}
-  />
+  <input class="flex h-12 rounded px-4 focus:ring-2 focus:outline-none" type="text" name="title" />
   <label class="text-xs font-semibold" for="description">{m.create_posting_description()}</label>
   <textarea
     class="flex h-24 resize-none rounded px-4 focus:ring-2 focus:outline-none"
-    name="description">{descriptionValue}</textarea
-  >
+    name="description"
+  ></textarea>
   <label
     class="w-36 rounded bg-blue-500 px-3 py-1 text-center text-xs font-semibold text-blue-100 hover:cursor-pointer hover:bg-blue-700 focus:ring-2 focus:outline-none"
   >
@@ -115,25 +103,16 @@
   <div class="text-xs font-semibold">{m.create_posting_content()}</div>
   <MarkdownEditor bind:value={contentValue} {carta} />
   <input type="hidden" name="content" value={contentValue} />
-  <div class="flex justify-between">
-    <button
-      class="h-12 w-64 rounded bg-blue-600 text-sm font-semibold text-blue-100 hover:bg-blue-700"
-      type="submit"
-    >
-      {m.create_posting_save()}
-    </button>
-    <button
-      class="h-12 w-64 rounded bg-red-600 text-sm font-semibold text-red-100 hover:bg-red-700"
-      type="submit"
-      formaction="?/delete"
-    >
-      {m.posting_delete()}
-    </button>
-  </div>
+  <button
+    class="h-12 w-64 rounded bg-blue-600 text-sm font-semibold text-blue-100 hover:bg-blue-700"
+    type="submit"
+  >
+    {m.create_posting_save()}
+  </button>
 </form>
 
 <style>
-  @reference "../../../app.css";
+  @reference "../../../../app.css";
 
   /* Set your monospace font */
   /* Required to have the editor working correctly! */

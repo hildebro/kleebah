@@ -1,4 +1,4 @@
-import type { Actions, PageServerLoad } from './$types'
+import type { Actions, PageServerLoad } from '../../../../../.svelte-kit/types/src/routes'
 import { deleteSubscriber, findSubscriber, updateSubscriber } from '$lib/server/db'
 import { error, redirect } from '@sveltejs/kit'
 import { hashPassword } from '$lib/server/password.ts'

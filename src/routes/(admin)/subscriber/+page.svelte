@@ -15,7 +15,7 @@
   {#each data.subscribers as subscriber (subscriber.id)}
     <li>
       {subscriber.user.username}
-      <a href={resolve('/subscriber/[id]', { id: subscriber.id })}>{m.generic_edit()}</a>
+      <a href={resolve('/(admin)/subscriber/[id]', { id: subscriber.id })}>{m.generic_edit()}</a>
     </li>
   {/each}
 </ul>

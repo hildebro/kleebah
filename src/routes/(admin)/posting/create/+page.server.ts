@@ -6,7 +6,7 @@ import { z } from 'zod'
 import type {
   Actions,
   PageServerLoad
-} from '../../../../.svelte-kit/types/src/routes/posting/create/$types'
+} from './$types'
 
 export const load: PageServerLoad = async () => {
   return { filenames: fetchFilenames() }
