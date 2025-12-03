@@ -3,7 +3,7 @@ import { findPosting } from '$lib/server/db'
 import { error } from '@sveltejs/kit'
 
 export const load: PageServerLoad = async ({ params }) => {
-  const blog = await findPosting(params.slug)
+  const blog = await findPosting(params.id)
   if (!blog) {
     throw error(404, 'Blog post not found')
   }

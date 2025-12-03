@@ -31,6 +31,6 @@ export const actions: Actions = {
     const id = await createPosting(post.title, post.description, post.content)
     moveNewImages(id)
 
-    return redirect(302, resolve('/'))
+    return redirect(302, resolve('/posting'))
   }
 }
