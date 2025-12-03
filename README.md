@@ -14,7 +14,6 @@ Accessible software to share blogs, vlogs, links or anything else without being 
 - [x] Image upload
 - [x] Authentication with optional 2FA
 - [x] Docker setup
-- [ ] Automatic deployment strategy
 - [x] Proper Github releases
 - [x] Subscriber CRUD (username, password)
 - [ ] Option to make a blog entry private, limiting access to subscribers
@@ -29,6 +28,7 @@ Accessible software to share blogs, vlogs, links or anything else without being 
 - [ ] `docs` folder to host a static explainer website in github pages
   - [ ] Wizard to find the optimal way of hosting for each user
 - [ ] Multi-blog instances with caddy docker, subdomain per blog
+- [ ] Automatic deployment strategy
 
 ### Post 1.0
 - [ ] Demo instance, linked on the explainer website
