@@ -25,10 +25,6 @@ const handleAuth: Handle = async ({ event, resolve }) => {
     event.locals.user = null
     event.locals.session = null
 
-    if (event.route.id !== '/login' && event.route.id !== '/setup') {
-      redirect(302, appPath.resolve('/login'))
-    }
-
     return resolve(event)
   }
 
