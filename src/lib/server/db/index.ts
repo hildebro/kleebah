@@ -129,7 +129,17 @@ export const deletePosting = async (id: string) => {
   await db.delete(posting).where(eq(posting.id, id)).execute()
 }
 
-export const findAllPostings = async () => {
+export const findPostingsForUser = async (userId: string | undefined) => {
+  // Without a user , only display public posts.
+  if (!userId) {
+    return db.query.posting
+      .findMany({
+        where: eq(posting.visibility, Visibility.Public)
+      })
+      .execute()
+  }
+
+  // If there is a user (admin or subscriber, doesn't matter), show all posts.
   return db.query.posting.findMany().execute()
 }
 

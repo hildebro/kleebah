@@ -1,9 +1,9 @@
 import xml from 'xml'
 import type { RequestHandler } from '@sveltejs/kit'
-import { findAllPostings } from '$lib/server/db'
+import { findPostingsForUser } from '$lib/server/db'
 
-export const GET: RequestHandler = async ({ url }) => {
-  const posts = await findAllPostings()
+export const GET: RequestHandler = async ({ url, locals }) => {
+  const posts = await findPostingsForUser(locals.user?.id)
 
   const BASE_URL = url.origin
   const base = (route: string) => {
