@@ -5,7 +5,8 @@ export const user = sqliteTable('user', {
   id: text().primaryKey(),
   username: text().notNull().unique(),
   passwordHash: text('password_hash').notNull(),
-  twoFactorSecret: text('two_factor_secret')
+  twoFactorSecret: text('two_factor_secret'),
+  rssToken: text('rss_token')
 })
 
 export type User = typeof user.$inferSelect
@@ -58,7 +59,7 @@ export const posting = sqliteTable('posting', {
   title: text().notNull(),
   content: text().notNull(),
   description: text(),
-  pubDate: text().notNull().default("sql`(CURRENT_TIMESTAMP)`"),
+  pubDate: text().notNull().default('sql`(CURRENT_TIMESTAMP)`'),
   visibility: text().notNull()
 })
 

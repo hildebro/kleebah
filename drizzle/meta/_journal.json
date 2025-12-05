@@ -64,6 +64,13 @@
       "when": 1764930551283,
       "tag": "0008_zippy_pestilence",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1764948560306,
+      "tag": "0009_yummy_gunslinger",
+      "breakpoints": true
     }
   ]
 }

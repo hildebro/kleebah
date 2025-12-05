@@ -1,8 +1,8 @@
 import { sequence } from '@sveltejs/kit/hooks'
 import * as auth from '$lib/server/auth'
-import  { type Handle, redirect } from '@sveltejs/kit'
+import { type Handle, redirect } from '@sveltejs/kit'
 import { paraglideMiddleware } from '$lib/paraglide/server'
-import { findAdmins } from '$lib/server/db'
+import { findAdmins, findUserByRssToken } from '$lib/server/db'
 import * as appPath from '$app/paths'
 
 const handleParaglide: Handle = ({ event, resolve }) =>
@@ -18,6 +18,14 @@ const handleAuth: Handle = async ({ event, resolve }) => {
   const admins = await findAdmins()
   if (admins.length === 0 && event.route.id !== '/setup') {
     redirect(302, appPath.resolve('/setup'))
+  }
+
+  const rssToken = event.url.searchParams.get('rss_token')
+  const rssTokenUser = rssToken ? await findUserByRssToken(rssToken) : null
+  if (rssTokenUser) {
+    event.locals.user = rssTokenUser
+
+    return resolve(event)
   }
 
   const sessionToken = event.cookies.get(auth.sessionCookieName)
@@ -39,9 +47,9 @@ const handleAuth: Handle = async ({ event, resolve }) => {
   event.locals.session = session
 
   if (
-    !event.locals.session?.twoFactorVerified
-    && event.locals.user?.twoFactorSecret
-    && event.route.id !== '/login/2fa'
+    !event.locals.session?.twoFactorVerified &&
+    event.locals.user?.twoFactorSecret &&
+    event.route.id !== '/login/2fa'
   ) {
     redirect(302, appPath.resolve('/login/2fa'))
   }

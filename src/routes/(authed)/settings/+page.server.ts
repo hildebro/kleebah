@@ -1,17 +1,20 @@
 import { decodeHex, encodeHexLowerCase } from '@oslojs/encoding'
 import { createTOTPKeyURI, verifyTOTP } from '@oslojs/otp'
 import QRCode from 'qrcode'
-import { error, redirect } from '@sveltejs/kit'
+import { error } from '@sveltejs/kit'
 import { z } from 'zod'
 import { removeTwoFactorSecret, saveTwoFactorSecret } from '$lib/server/db'
-import { removeTwoFactorVerified, setTwoFactorVerified } from '$lib/server/auth.ts'
+import {
+  generateRssToken,
+  removeTwoFactorVerified,
+  setTwoFactorVerified
+} from '$lib/server/auth.ts'
 import type { Actions, PageServerLoad } from './$types'
-import { resolve } from '$app/paths'
 
 export const load: PageServerLoad = async ({ locals }) => {
   // No need to load any 2FA related data, if it's already set up
   if (locals.user?.twoFactorSecret) {
-    return {}
+    return { rssToken: locals.user.rssToken }
   }
 
   const twoFactorSecret = crypto.getRandomValues(new Uint8Array(20))
@@ -22,7 +25,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
   const qrImage = await QRCode.toDataURL(uri)
 
-  return { qrImage, hexSecret }
+  return { rssToken: locals.user?.rssToken, qrImage, hexSecret }
 }
 
 const twoFactorSchema = z.object({
@@ -31,6 +34,9 @@ const twoFactorSchema = z.object({
 })
 
 export const actions: Actions = {
+  generate_rss_token: async ({ locals }) => {
+    await generateRssToken(locals.user?.id as string)
+  },
   enable_2fa: async (event) => {
     const formData = Object.fromEntries(await event.request.formData())
     const result = twoFactorSchema.safeParse(formData)

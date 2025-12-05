@@ -34,6 +34,14 @@ export const findAdmin = async (id: string) => {
     .execute()
 }
 
+export const findUserByRssToken = async (token: string) => {
+  return db.query.user
+    .findFirst({
+      where: eq(user.rssToken, token)
+    })
+    .execute()
+}
+
 export const createAdmin = async (username: string, passwordHash: string) => {
   const id = generateUUID()
   await db.insert(user).values({ id, username, passwordHash }).execute()
@@ -155,7 +163,7 @@ export const findPosting = async (id: string) => {
     .execute()
 }
 
-function generateUUID() {
+export const generateUUID = () => {
   // ID with 120 bits of entropy, or about the same as UUID v4.
   const bytes = crypto.getRandomValues(new Uint8Array(15))
   return encodeBase32LowerCase(bytes)
