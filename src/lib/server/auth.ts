@@ -91,3 +91,11 @@ export const setTwoFactorVerified = async (sessionId: string) => {
     .set({ twoFactorVerified: true })
     .where(eq(table.session.id, sessionId))
 }
+
+export const removeTwoFactorVerified = async (sessionId: string) => {
+  await db
+    .update(table.session)
+    .set({ twoFactorVerified: false })
+    .where(eq(table.session.id, sessionId))
+}
+
