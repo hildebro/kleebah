@@ -57,6 +57,13 @@
       "when": 1764510476005,
       "tag": "0007_nifty_moonstone",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1764930551283,
+      "tag": "0008_zippy_pestilence",
+      "breakpoints": true
     }
   ]
 }

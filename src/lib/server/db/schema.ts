@@ -1,5 +1,5 @@
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { relations, sql } from 'drizzle-orm'
+import { relations } from 'drizzle-orm'
 
 export const user = sqliteTable('user', {
   id: text().primaryKey(),
@@ -48,9 +48,7 @@ export const session = sqliteTable('session', {
     .notNull()
     .references(() => user.id),
   expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
-  twoFactorVerified: integer('two_factor_verified', { mode: 'boolean' })
-    .notNull()
-    .default(false)
+  twoFactorVerified: integer('two_factor_verified', { mode: 'boolean' }).notNull().default(false)
 })
 
 export type Session = typeof session.$inferSelect
@@ -60,9 +58,13 @@ export const posting = sqliteTable('posting', {
   title: text().notNull(),
   content: text().notNull(),
   description: text(),
-  pubDate: text()
-    .notNull()
-    .default(sql`(CURRENT_TIMESTAMP)`)
+  pubDate: text().notNull().default("sql`(CURRENT_TIMESTAMP)`"),
+  visibility: text().notNull()
 })
 
 export type Posting = typeof posting.$inferSelect
+
+export enum Visibility {
+  Public = 'public',
+  Subscribers = 'subscribers'
+}

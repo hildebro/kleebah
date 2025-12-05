@@ -103,6 +103,27 @@
   <div class="text-xs font-semibold">{m.create_posting_content()}</div>
   <MarkdownEditor bind:value={contentValue} {carta} />
   <input type="hidden" name="content" value={contentValue} />
+  <div class="text-xs font-semibold">{m.create_posting_visibility()}</div>
+  <div class="flex flew-row gap-2">
+    <label class="flex h-12 cursor-pointer items-center gap-3 rounded px-4 ring-1 ring-gray-200 transition hover:bg-gray-50 has-[:checked]:ring-2 has-[:checked]:ring-blue-500">
+      <input
+        type="radio"
+        name="visibility"
+        value="public"
+        class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-offset-0 focus:outline-none"
+      />
+      <span class="text-sm">{m.visibility_public()}</span>
+    </label>
+    <label class="flex h-12 cursor-pointer items-center gap-3 rounded px-4 ring-1 ring-gray-200 transition hover:bg-gray-50 has-[:checked]:ring-2 has-[:checked]:ring-blue-500">
+      <input
+        type="radio"
+        name="visibility"
+        value="subscribers"
+        class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-offset-0 focus:outline-none"
+      />
+      <span class="text-sm">{m.visibility_subscribers()}</span>
+    </label>
+  </div>
   <button
     class="h-12 w-64 rounded bg-blue-600 text-sm font-semibold text-blue-100 hover:bg-blue-700"
     type="submit"

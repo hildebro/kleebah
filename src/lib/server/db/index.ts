@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/libsql'
 import { createClient } from '@libsql/client'
 import * as schema from './schema'
-import { admin, posting, subscriber, user } from './schema'
+import { admin, posting, subscriber, user, Visibility } from './schema'
 import { env } from '$env/dynamic/private'
 import { encodeBase32LowerCase } from '@oslojs/encoding'
 import { eq } from 'drizzle-orm'
@@ -93,12 +93,20 @@ export const saveTwoFactorSecret = async (userId: string, hexSecret: string) => 
   await db.update(user).set({ twoFactorSecret: hexSecret }).where(eq(user.id, userId)).execute()
 }
 
-export const createPosting = async (title: string, description: string, content: string) => {
+export const createPosting = async (
+  title: string,
+  description: string,
+  content: string,
+  visibility: Visibility
+) => {
   const id = generateUUID()
 
   const fixedRefContent = replaceImageRefs(id, content)
 
-  await db.insert(posting).values({ id, title, description, content: fixedRefContent }).execute()
+  await db
+    .insert(posting)
+    .values({ id, title, description, content: fixedRefContent, visibility })
+    .execute()
 
   return id
 }
@@ -107,9 +115,14 @@ export const updatePosting = async (
   id: string,
   title: string,
   description: string,
-  content: string
+  content: string,
+  visibility: Visibility
 ) => {
-  await db.update(posting).set({ title, description, content }).where(eq(posting.id, id)).execute()
+  await db
+    .update(posting)
+    .set({ title, description, content, visibility })
+    .where(eq(posting.id, id))
+    .execute()
 }
 
 export const deletePosting = async (id: string) => {

@@ -7,6 +7,7 @@ import type {
   Actions,
   PageServerLoad
 } from './$types'
+import { Visibility } from '$lib/server/db/schema.ts'
 
 export const load: PageServerLoad = async ({ params }) => {
   const posting = await findPosting(params.id)
@@ -24,7 +25,8 @@ const postSchema = z.object({
   id: z.string().nonempty(),
   title: z.string().nonempty(),
   description: z.string(),
-  content: z.string().nonempty()
+  content: z.string().nonempty(),
+  visibility: z.enum(Visibility).nonoptional()
 })
 
 const deletePostingSchema = z.object({
@@ -36,12 +38,12 @@ export const actions: Actions = {
     const formData = Object.fromEntries(await request.formData())
     const result = postSchema.safeParse(formData)
     if (!result.success) {
-      error(422, result.error)
+      return error(422, result.error)
     }
 
     const post = result.data
 
-    await updatePosting(post.id, post.title, post.description, post.content)
+    await updatePosting(post.id, post.title, post.description, post.content, post.visibility)
 
     return redirect(302, resolve('/posting'))
   },
