@@ -78,6 +78,13 @@
       "when": 1765225717584,
       "tag": "0010_aromatic_zaran",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1765231539300,
+      "tag": "0011_careful_power_man",
+      "breakpoints": true
     }
   ]
 }

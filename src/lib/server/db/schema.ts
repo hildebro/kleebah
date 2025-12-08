@@ -67,10 +67,10 @@ export const roleRelations = relations(role, ({ one, many }) => ({
 export const subscriberToRole = sqliteTable(
   'subscriber_to_role',
   {
-    subscriberId: integer()
+    subscriberId: text()
       .notNull()
       .references(() => subscriber.id),
-    roleId: integer()
+    roleId: text()
       .notNull()
       .references(() => role.id)
   },
