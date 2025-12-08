@@ -1,3 +1,16 @@
+# [0.7.0](https://github.com/hildebro/kleebah/compare/v0.6.0...v0.7.0) (2025-12-08)
+
+
+### Bug Fixes
+
+* html header for rss feed discovery ([8672bb7](https://github.com/hildebro/kleebah/commit/8672bb7a8298b01bc3f0db54f1aea3f97ed41af6))
+
+
+### Features
+
+* add token for alternative authentication ([cb3b588](https://github.com/hildebro/kleebah/commit/cb3b588ea37fc128e4f3829f1eaf1c686f94fccd))
+* if token exists, automatically add it to feed url ([a116eaa](https://github.com/hildebro/kleebah/commit/a116eaaea85cb4b3e5e9da2c15d1ac3d1c6084b6))
+
 # [0.6.0](https://github.com/hildebro/kleebah/compare/v0.5.0...v0.6.0) (2025-12-05)
 
 
