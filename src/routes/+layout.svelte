@@ -17,6 +17,7 @@
   <a href={resolve('/')}>{m.home()}</a>
   <a href={resolve('/posting')}>{m.postings()}</a>
   <a href={resolve('/subscriber')}>{m.subscribers()}</a>
+  <a href={resolve('/roles')}>{m.roles()}</a>
   <a href={resolve('/feed.xml')}>{m.rss_feed()}</a>
   <a href={resolve('/settings')}>{m.settings()}</a>
 </nav>

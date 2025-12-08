@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/libsql'
 import { createClient } from '@libsql/client'
 import * as schema from './schema'
-import { admin, posting, subscriber, user, Visibility } from './schema'
+import { admin, posting, role, subscriber, user, Visibility } from './schema'
 import { env } from '$env/dynamic/private'
 import { encodeBase32LowerCase } from '@oslojs/encoding'
 import { eq } from 'drizzle-orm'
@@ -95,6 +95,35 @@ export const updateSubscriber = async (
 export const deleteSubscriber = async (id: string) => {
   await db.delete(subscriber).where(eq(subscriber.id, id)).execute()
   await db.delete(user).where(eq(user.id, id)).execute()
+}
+
+export const findRoles = async () => {
+  return db.query.role.findMany().execute()
+}
+
+export const findRole = async (id: string) => {
+  return db.query.role
+    .findFirst({
+      where: eq(role.id, id)
+    })
+    .execute()
+}
+
+export const createRole = async (name: string, parentId: string | null) => {
+  const id = generateUUID()
+  await db.insert(role).values({ id, name, parentId }).execute()
+}
+
+export const updateRole = async (
+  id: string,
+  name: string,
+  parentId: string | null
+) => {
+  await db.update(role).set({ name, parentId }).where(eq(role.id, id)).execute()
+}
+
+export const deleteRole = async (id: string) => {
+  await db.delete(role).where(eq(role.id, id)).execute()
 }
 
 export const saveTwoFactorSecret = async (userId: string, hexSecret: string) => {
