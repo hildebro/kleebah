@@ -1,3 +1,17 @@
+# [0.8.0](https://github.com/hildebro/kleebah/compare/v0.7.0...v0.8.0) (2025-12-08)
+
+
+### Bug Fixes
+
+* subscriber to role typing ([02fcb20](https://github.com/hildebro/kleebah/commit/02fcb2017f83270ae0b017556d031bd4cb1f1d92))
+
+
+### Features
+
+* consider role hierarchy in CRUD and overview ([5f0a5ba](https://github.com/hildebro/kleebah/commit/5f0a5ba79b1f9f7064bebfabe2e18923dd14a982))
+* role tables ([786e65d](https://github.com/hildebro/kleebah/commit/786e65d41d57aef7b477cec8593da8f7402fcf20))
+* roles crud ([991fe79](https://github.com/hildebro/kleebah/commit/991fe791aa32a18e1b02316650ad55566ae9b9df))
+
 # [0.7.0](https://github.com/hildebro/kleebah/compare/v0.6.0...v0.7.0) (2025-12-08)
 
 
