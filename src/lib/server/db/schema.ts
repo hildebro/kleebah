@@ -1,4 +1,10 @@
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import {
+  type AnySQLiteColumn,
+  integer,
+  primaryKey,
+  sqliteTable,
+  text
+} from 'drizzle-orm/sqlite-core'
 import { relations } from 'drizzle-orm'
 
 export const user = sqliteTable('user', {
@@ -36,12 +42,40 @@ export const subscriber = sqliteTable('subscriber', {
 
 export type Subscriber = typeof subscriber.$inferSelect
 
-export const subscriberRelations = relations(subscriber, ({ one }) => ({
+export const subscriberRelations = relations(subscriber, ({ one, many }) => ({
   user: one(user, {
     fields: [subscriber.id],
     references: [user.id]
-  })
+  }),
+  roles: many(role)
 }))
+
+export const role = sqliteTable('role', {
+  id: text().primaryKey(),
+  name: text().notNull(),
+  // Explicit typing required for self-referential foreign keys.
+  parentId: text().references((): AnySQLiteColumn => role.id)
+})
+
+export type Role = typeof role.$inferSelect
+
+export const roleRelations = relations(role, ({ one, many }) => ({
+  subscribers: many(subscriber),
+  parent: one(role)
+}))
+
+export const subscriberToRole = sqliteTable(
+  'subscriber_to_role',
+  {
+    subscriberId: integer()
+      .notNull()
+      .references(() => subscriber.id),
+    roleId: integer()
+      .notNull()
+      .references(() => role.id)
+  },
+  (t) => [primaryKey({ columns: [t.subscriberId, t.roleId] })]
+)
 
 export const session = sqliteTable('session', {
   id: text().primaryKey(),
