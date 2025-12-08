@@ -1,5 +1,6 @@
 <script lang="ts">
   import * as m from '$lib/paraglide/messages.js'
+  import RoleOption from '../RoleOption.svelte'
 
   let { data } = $props()
 
@@ -18,7 +19,7 @@
     value={nameValue}
   />
   <div class="text-xs font-semibold">{m.roles_parent()}</div>
-  <div class="flew-row flex gap-2">
+  <div class="flex flex-col gap-2">
     <label
       class="flex h-12 cursor-pointer items-center gap-3 rounded px-4 ring-1 ring-gray-200 transition hover:bg-gray-50 has-[:checked]:ring-2 has-[:checked]:ring-blue-500"
     >
@@ -31,21 +32,8 @@
       />
       <span class="text-sm">{m.roles_none()}</span>
     </label>
-    {#each data.roles as role (role.id)}
-      {#if role.id !== data.role.id}
-        <label
-          class="flex h-12 cursor-pointer items-center gap-3 rounded px-4 ring-1 ring-gray-200 transition hover:bg-gray-50 has-[:checked]:ring-2 has-[:checked]:ring-blue-500"
-        >
-          <input
-            type="radio"
-            name="parentId"
-            value={role.id}
-            checked={parentIdValue === role.id}
-            class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-offset-0 focus:outline-none"
-          />
-          <span class="text-sm">{role.name}</span>
-        </label>
-      {/if}
+    {#each data.roleTree as roleNode (roleNode.id)}
+      <RoleOption role={roleNode} editingRole={data.role.id} selectedValue={parentIdValue ?? undefined} />
     {/each}
   </div>
   <div class="flex justify-between">
