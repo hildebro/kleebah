@@ -29,6 +29,7 @@ Accessible software to share blogs, vlogs, links or anything else without being 
   - [ ] Wizard to find the optimal way of hosting for each user
 - [ ] Multi-blog instances with caddy docker, subdomain per blog
 - [ ] Automatic deployment strategy
+- [ ] Well structured CSS to style the whole app
 
 ### Post 1.0
 - [ ] Demo instance, linked on the explainer website
