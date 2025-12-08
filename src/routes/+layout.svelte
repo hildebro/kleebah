@@ -10,9 +10,10 @@
 
 <svelte:head>
   <link rel="icon" href={favicon} />
+  <link rel="alternate" type="application/rss+xml" title="Kleebah" href="/feed.xml" />
 </svelte:head>
 
-<nav class="p-5 flex flex-col gap-3 sm:flex-row">
+<nav class="flex flex-col gap-3 p-5 sm:flex-row">
   <a href={resolve('/')}>{m.home()}</a>
   <a href={resolve('/posting')}>{m.postings()}</a>
   <a href={resolve('/subscriber')}>{m.subscribers()}</a>
