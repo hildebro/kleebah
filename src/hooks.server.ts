@@ -4,6 +4,22 @@ import { type Handle, redirect } from '@sveltejs/kit'
 import { paraglideMiddleware } from '$lib/paraglide/server'
 import { findAdmins, findUserByRssToken } from '$lib/server/db'
 import * as appPath from '$app/paths'
+import { building } from '$app/environment'
+import { seed } from '$lib/server/db/seed.ts'
+
+async function startup() {
+  // 1. Don't run this during the build process (adapter generation)
+  if (building) return;
+
+  try {
+    // 2. Run the seed function
+    await seed();
+  } catch (e) {
+    console.error('Database seed failed:', e);
+  }
+}
+
+await startup();
 
 const handleParaglide: Handle = ({ event, resolve }) =>
   paraglideMiddleware(event.request, ({ request, locale }) => {

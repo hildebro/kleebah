@@ -7,6 +7,14 @@ import {
 } from 'drizzle-orm/sqlite-core'
 import { relations } from 'drizzle-orm'
 
+export const systemState = sqliteTable('system_state', {
+  key: text().primaryKey(),
+  value: text(),
+  updatedAt: integer({ mode: 'timestamp' })
+})
+
+export type SystemState = typeof systemState.$inferSelect
+
 export const user = sqliteTable('user', {
   id: text().primaryKey(),
   username: text().notNull().unique(),
