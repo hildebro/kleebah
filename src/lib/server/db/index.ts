@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/libsql'
 import { createClient } from '@libsql/client'
 import * as schema from './schema'
-import { admin, posting, role, subscriber, user, Visibility } from './schema'
+import { admin, posting, role, subscriber, subscriberToRole, user, Visibility } from './schema'
 import { env } from '$env/dynamic/private'
 import { encodeBase32LowerCase } from '@oslojs/encoding'
 import { eq } from 'drizzle-orm'
@@ -54,7 +54,8 @@ export const findSubscriber = async (id: string) => {
   return db.query.subscriber
     .findFirst({
       with: {
-        user: true
+        user: true,
+        subscribersToRoles: true
       },
       where: eq(subscriber.id, id)
     })
@@ -71,16 +72,29 @@ export const findSubscribers = async () => {
     .execute()
 }
 
-export const createSubscriber = async (username: string, passwordHash: string) => {
+export const createSubscriber = async (username: string, passwordHash: string, roles: string[]) => {
   const id = generateUUID()
   await db.insert(user).values({ id, username, passwordHash }).execute()
   await db.insert(subscriber).values({ id }).execute()
+
+  if (roles.length === 0) {
+    return
+  }
+
+  const inserts = roles.map(roleId => {
+    return {
+      roleId,
+      subscriberId: id
+    }
+  })
+  await db.insert(subscriberToRole).values(inserts).execute()
 }
 
 export const updateSubscriber = async (
   id: string,
   username: string,
-  passwordHash: string | undefined
+  passwordHash: string | undefined,
+  roles: string[]
 ) => {
   const updateValue: { username: string; passwordHash?: string | undefined } = {
     username
@@ -90,6 +104,21 @@ export const updateSubscriber = async (
   }
 
   await db.update(user).set(updateValue).where(eq(user.id, id)).execute()
+  // clear all existing roles
+  await db.delete(subscriberToRole).where(eq(subscriberToRole.subscriberId, id)).execute()
+
+  if (roles.length === 0) {
+    return
+  }
+
+  // then insert the new rules
+  const inserts = roles.map(roleId => {
+    return {
+      roleId,
+      subscriberId: id
+    }
+  })
+  await db.insert(subscriberToRole).values(inserts).execute()
 }
 
 export const deleteSubscriber = async (id: string) => {

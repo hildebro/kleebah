@@ -22,7 +22,7 @@ Accessible software to share blogs, vlogs, links or anything else without being 
 - [ ] Role-management
   - [x] Admin setting to define roles, hierarchies possible
   - [x] Default roles `family, friends, close friends`
-  - [ ] Add multi-select field to subscriber CRUD
+  - [x] Add multi-select field to subscriber CRUD
   - [ ] Option on private blog entries to define required roles
   - [ ] Update RSS feed to consider roles
 - [ ] `docs` folder to host a static explainer website in github pages
