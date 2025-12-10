@@ -18,7 +18,7 @@ const postSchema = z.object({
 })
 
 export const actions: Actions = {
-  default: async ({ request }) => {
+  create: async ({ request }) => {
     const formData = Object.fromEntries(await request.formData())
     const result = postSchema.safeParse(formData)
     if (!result.success) {
