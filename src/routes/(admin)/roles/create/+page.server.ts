@@ -18,7 +18,7 @@ const roleSchema = z.object({
 })
 
 export const actions: Actions = {
-  default: async (event) => {
+  create: async (event) => {
     const formData = Object.fromEntries(await event.request.formData())
     const result = roleSchema.safeParse(formData)
     if (!result.success) {
