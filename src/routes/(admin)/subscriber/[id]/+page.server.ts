@@ -54,6 +54,8 @@ export const actions: Actions = {
       return error(400, result.error)
     }
 
+    console.log(result.data)
+
     const passwordHash = result.data.password ? await hashPassword(result.data.password) : undefined
     await updateSubscriber(result.data.id, result.data.username, passwordHash, result.data.roles)
 

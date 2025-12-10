@@ -28,7 +28,7 @@ const subscriberSchema = z.object({
 })
 
 export const actions: Actions = {
-  default: async (event) => {
+  create: async (event) => {
     const rawFormData = await event.request.formData()
     const formData = {
       ...Object.fromEntries(rawFormData),
