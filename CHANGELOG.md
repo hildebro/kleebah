@@ -1,3 +1,18 @@
+# [0.9.0](https://github.com/hildebro/kleebah/compare/v0.8.0...v0.9.0) (2025-12-10)
+
+
+### Bug Fixes
+
+* subscriber-role-relation misconfigured ([65ec5fa](https://github.com/hildebro/kleebah/commit/65ec5fa4260ff150c717ffbf8e04db52e539e1b1))
+* unable to access /cdn/new ([225fa02](https://github.com/hildebro/kleebah/commit/225fa02bdb089b8f0ceebc621b97a4fbe0e39f69))
+
+
+### Features
+
+* add roles to subscriber crud ([73dde8b](https://github.com/hildebro/kleebah/commit/73dde8bdd8d9869231e9274ee9f1c3d277cb2342))
+* auto-select children/parents for subscriber crud ([637319d](https://github.com/hildebro/kleebah/commit/637319d59f4fe56b88274b7a5f3f1228763c6372))
+* set default roles initially ([832314e](https://github.com/hildebro/kleebah/commit/832314e0d3303d9fc69640f92cd35a85b7ae2928))
+
 # [0.8.0](https://github.com/hildebro/kleebah/compare/v0.7.0...v0.8.0) (2025-12-08)
 
 
