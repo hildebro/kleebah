@@ -55,7 +55,7 @@ export const subscriberRelations = relations(subscriber, ({ one, many }) => ({
     fields: [subscriber.id],
     references: [user.id]
   }),
-  roles: many(role)
+  subscribersToRoles: many(subscriberToRole)
 }))
 
 export const role = sqliteTable('role', {
@@ -84,6 +84,17 @@ export const subscriberToRole = sqliteTable(
   },
   (t) => [primaryKey({ columns: [t.subscriberId, t.roleId] })]
 )
+
+export const subscriberToRoleRelations = relations(subscriberToRole, ({ one }) => ({
+  subscriber: one(subscriber, {
+    fields: [subscriberToRole.subscriberId],
+    references: [subscriber.id],
+  }),
+  roles: one(role, {
+    fields: [subscriberToRole.roleId],
+    references: [role.id],
+  }),
+}));
 
 export const session = sqliteTable('session', {
   id: text().primaryKey(),
