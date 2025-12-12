@@ -35,6 +35,7 @@ Accessible software to share blogs, vlogs, links or anything else without being 
   - [ ] enable deletion of posting images
   - [ ] display form validation errors with toasts
   - [ ] better structure for `lib/server` folder 
+  - [ ] handle deletion attempts, if foreign key references exist
 
 ### Post 1.0
 - [ ] Demo instance, linked on the explainer website
