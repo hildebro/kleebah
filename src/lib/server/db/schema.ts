@@ -118,7 +118,37 @@ export const posting = sqliteTable('posting', {
 
 export type Posting = typeof posting.$inferSelect
 
+export const postingRelations = relations(posting, ({ many }) => ({
+  postingToRole: many(postingToRole)
+}))
+
+export const postingToRole = sqliteTable(
+  'posting_to_role',
+  {
+    postingId: text()
+      .notNull()
+      .references(() => posting.id),
+    roleId: text()
+      .notNull()
+      .references(() => role.id)
+  },
+  (t) => [primaryKey({ columns: [t.postingId, t.roleId] })]
+)
+
+export const postingToRoleRelations = relations(postingToRole, ({ one }) => ({
+  posting: one(posting, {
+    fields: [postingToRole.postingId],
+    references: [posting.id],
+  }),
+  roles: one(role, {
+    fields: [postingToRole.roleId],
+    references: [role.id],
+  }),
+}));
+
+
 export enum Visibility {
   Public = 'public',
-  Subscribers = 'subscribers'
+  Subscribers = 'subscribers',
+  Roles = 'roles'
 }
