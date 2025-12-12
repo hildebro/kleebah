@@ -179,6 +179,10 @@ export const createPosting = async (
     .values({ id, title, description, content: fixedRefContent, visibility })
     .execute()
 
+  if (roles.length === 0) {
+    return id
+  }
+
   const inserts = roles.map(roleId => {
     return {
       roleId,
