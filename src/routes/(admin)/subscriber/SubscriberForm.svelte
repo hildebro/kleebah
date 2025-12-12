@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as m from '$lib/paraglide/messages.js'
   import { SvelteMap, SvelteSet } from 'svelte/reactivity'
-  import SubscriberRoleOption from './SubscriberRoleOption.svelte'
+  import RoleTreeMultiSelect from '$lib/components/RoleTreeMultiSelect.svelte'
   import type { RoleWithChildren } from '$lib/roles.ts'
 
   interface SubscriberData {
@@ -21,11 +21,11 @@
     subscriber = {
       username: '',
       password: undefined,
-      roles: [],
+      roles: []
     },
     formAction,
-    roleTree,
-  }: Props = $props();
+    roleTree
+  }: Props = $props()
 
   let username = $state(subscriber.username)
   // Source of truth for roles. Callbacks in the SubscriberRoleOption will update this.
@@ -99,7 +99,7 @@
   <input type="password" name="password" />
   <div class="text-xs font-semibold">{m.subscribers_roles()}</div>
   {#each roleTree as roleNode (roleNode.id)}
-    <SubscriberRoleOption
+    <RoleTreeMultiSelect
       role={roleNode}
       selectedValues={roles}
       onToggle={handleToggle}

@@ -1,11 +1,11 @@
 <script lang="ts">
   import type { RoleWithChildren } from '$lib/roles.ts'
   import { SvelteSet } from 'svelte/reactivity'
-  import SubscriberRoleOption from './SubscriberRoleOption.svelte'
+  import RoleTreeMultiSelect from './RoleTreeMultiSelect.svelte'
 
   let {
     role,
-    selectedValues, // Now expects a SvelteSet<string>
+    selectedValues,
     depth = 0,
     onToggle
   }: {
@@ -41,7 +41,7 @@
 {#if role.children.length > 0}
   <div class="mt-2 flex flex-col gap-2">
     {#each role.children as child (child.id)}
-      <SubscriberRoleOption role={child} depth={depth + 1} {selectedValues} {onToggle} />
+      <RoleTreeMultiSelect role={child} depth={depth + 1} {selectedValues} {onToggle} />
     {/each}
   </div>
 {/if}
