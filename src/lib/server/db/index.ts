@@ -1,7 +1,17 @@
 import { drizzle } from 'drizzle-orm/libsql'
 import { createClient } from '@libsql/client'
 import * as schema from './schema'
-import { admin, posting, postingToRole, role, subscriber, subscriberToRole, user, Visibility } from './schema'
+import {
+  admin,
+  inviteLink, inviteLinkToRole,
+  posting,
+  postingToRole,
+  role,
+  subscriber,
+  subscriberToRole,
+  user,
+  Visibility
+} from './schema'
 import { env } from '$env/dynamic/private'
 import { encodeBase32LowerCase } from '@oslojs/encoding'
 import { and, eq, exists, inArray, or, sql } from 'drizzle-orm'
@@ -124,6 +134,52 @@ export const updateSubscriber = async (
 export const deleteSubscriber = async (id: string) => {
   await db.delete(subscriber).where(eq(subscriber.id, id)).execute()
   await db.delete(user).where(eq(user.id, id)).execute()
+}
+
+export const findInviteLinks = async () => {
+  const inviteLinks = await db.query.inviteLink.findMany().execute()
+
+  const linksWithRoles = inviteLinks.map(async (inviteLink) => {
+    return {
+      ...inviteLink,
+      roles: await findRolesByInviteLink(inviteLink.id)
+    }
+  })
+
+  return Promise.all(linksWithRoles)
+}
+
+const findRolesByInviteLink = async (inviteLinkId: string) => {
+  const relationTableSubQuery = db.select()
+    .from(inviteLinkToRole)
+    .where(and(
+      eq(inviteLinkToRole.inviteLinkId, inviteLinkId),
+      eq(inviteLinkToRole.roleId, role.id)
+    ))
+
+  return db.select().from(role).where(exists(relationTableSubQuery)).execute()
+}
+
+export const createInviteLink = async (roles: string[], expiresAt: Date | null) => {
+  const id = generateUUID()
+  await db.insert(inviteLink).values({ id, expiresAt }).execute()
+
+  if (roles.length === 0) {
+    return
+  }
+
+  const inserts = roles.map(roleId => {
+    return {
+      roleId,
+      inviteLinkId: id
+    }
+  })
+  await db.insert(inviteLinkToRole).values(inserts).execute()
+}
+
+export const deleteInviteLink = async (id: string) => {
+  await db.delete(inviteLinkToRole).where(eq(inviteLinkToRole.inviteLinkId, id)).execute()
+  await db.delete(inviteLink).where(eq(inviteLink.id, id)).execute()
 }
 
 export const findRoles = async () => {
@@ -272,7 +328,7 @@ export const findPostingsForUser = async (userId: string | undefined) => {
 }
 
 export const findPosting = async (postingId: string, userId: string | undefined) => {
-  let accessQuery;
+  let accessQuery
   if (!userId) {
     // Without a user, only display public posts.
     accessQuery = eq(posting.visibility, Visibility.Public)
