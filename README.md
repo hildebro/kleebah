@@ -14,7 +14,7 @@ Accessible software to share blogs, vlogs, links or anything else without being 
 - [x] Image upload
 - [x] Authentication with optional 2FA
 - [x] Docker setup
-- [x] Proper Github releases
+- [x] Proper GitHub releases
 - [x] Subscriber CRUD (username, password)
 - [x] Option to make a blog entry private, limiting access to subscribers
 - [x] Token generation per subscriber to receive private blog entries in their RSS feed
@@ -29,7 +29,12 @@ Accessible software to share blogs, vlogs, links or anything else without being 
   - [ ] Wizard to find the optimal way of hosting for each user
 - [ ] Multi-blog instances with caddy docker, subdomain per blog
 - [ ] Automatic deployment strategy
-- [ ] Well structured CSS to style the whole app
+- [ ] Well-structured CSS to style the whole app
+- [ ] Miscellaneous cleanup / small features
+  - [ ] less duplicate code in CRUD backend
+  - [ ] enable deletion of posting images
+  - [ ] display form validation errors with toasts
+  - [ ] better structure for `lib/server` folder 
 
 ### Post 1.0
 - [ ] Demo instance, linked on the explainer website
