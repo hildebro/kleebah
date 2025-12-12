@@ -9,8 +9,8 @@ import type {
 } from './$types'
 import { Visibility } from '$lib/server/db/schema.ts'
 
-export const load: PageServerLoad = async ({ params }) => {
-  const posting = await findPosting(params.id)
+export const load: PageServerLoad = async ({ params, locals }) => {
+  const posting = await findPosting(params.id, locals.user?.id)
   if (!posting) {
     return error(404, 'Posting not found')
   }

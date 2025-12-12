@@ -10,7 +10,7 @@ export async function GET({ params, locals }) {
       throw error(404, 'Only admins can access the "new" folder.')
     }
   } else {
-    const posting = await findPosting(params.posting_id)
+    const posting = await findPosting(params.posting_id, locals.user?.id)
     if (!posting) {
       throw error(404, 'No posting found.')
     }

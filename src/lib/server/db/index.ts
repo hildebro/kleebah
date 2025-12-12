@@ -4,7 +4,7 @@ import * as schema from './schema'
 import { admin, posting, postingToRole, role, subscriber, subscriberToRole, user, Visibility } from './schema'
 import { env } from '$env/dynamic/private'
 import { encodeBase32LowerCase } from '@oslojs/encoding'
-import { eq } from 'drizzle-orm'
+import { and, eq, exists, inArray, or, sql } from 'drizzle-orm'
 import { replaceImageRefs } from '$lib/server/filesystem.ts'
 
 const client = createClient({ url: env.DATABASE_URL ?? 'file:local.db' })
@@ -230,7 +230,7 @@ export const deletePosting = async (id: string) => {
 }
 
 export const findPostingsForUser = async (userId: string | undefined) => {
-  // Without a user , only display public posts.
+  // Without a user, only display public posts.
   if (!userId) {
     return db.query.posting
       .findMany({
@@ -239,17 +239,75 @@ export const findPostingsForUser = async (userId: string | undefined) => {
       .execute()
   }
 
-  // If there is a user (admin or subscriber, doesn't matter), show all posts.
-  return db.query.posting.findMany().execute()
+  // For admin users, display everything.
+  if (await findAdmin(userId)) {
+    return db.query.posting.findMany().execute()
+  }
+
+  // For subscribers, check their access.
+  const postingRoleSubquery = db.select()
+    .from(postingToRole)
+    .leftJoin(subscriberToRole, eq(postingToRole.roleId, subscriberToRole.roleId))
+    .where(and(
+      eq(subscriberToRole.subscriberId, userId),
+      eq(postingToRole.postingId, posting.id)
+    ))
+
+  return db.query.posting
+    .findMany({
+      where: or(
+        // Either the post is generally available to subscribers.
+        inArray(posting.visibility, [Visibility.Public, Visibility.Subscribers]),
+        // Or the subscriber in question has the correct roles.
+        and(
+          eq(posting.visibility, Visibility.Roles),
+          // Looking for an `exists` here implicitly prevents access to any posting that has the
+          // visibility `roles` without defining any roles. Such a posting would be in an invalid
+          // state anyway, so this is desired behavior.
+          exists(postingRoleSubquery)
+        )
+      )
+    })
+    .execute()
 }
 
-export const findPosting = async (id: string) => {
+export const findPosting = async (postingId: string, userId: string | undefined) => {
+  let accessQuery;
+  if (!userId) {
+    // Without a user, only display public posts.
+    accessQuery = eq(posting.visibility, Visibility.Public)
+  } else if (await findAdmin(userId)) {
+    // For admin users, display everything.
+    accessQuery = sql.raw('1=1')
+  } else {
+    // For subscribers, check their access.
+    const postingRoleSubquery = db.select()
+      .from(postingToRole)
+      .leftJoin(subscriberToRole, eq(postingToRole.roleId, subscriberToRole.roleId))
+      .where(and(
+        eq(subscriberToRole.subscriberId, userId),
+        eq(postingToRole.postingId, posting.id)
+      ))
+
+    // For subscribers, check their access.
+    accessQuery = or(
+      inArray(posting.visibility, [Visibility.Public, Visibility.Subscribers]),
+      and(
+        eq(posting.visibility, Visibility.Roles),
+        exists(postingRoleSubquery)
+      )
+    )
+  }
+
   return db.query.posting
     .findFirst({
       with: {
         postingToRole: true
       },
-      where: eq(posting.id, id)
+      where: and(
+        eq(posting.id, postingId),
+        accessQuery
+      )
     })
     .execute()
 }
