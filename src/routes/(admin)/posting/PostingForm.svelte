@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { Carta, MarkdownEditor } from 'carta-md';
-  import 'carta-md/default.css';
-  import DOMPurify from 'isomorphic-dompurify';
-  import { invalidateAll } from '$app/navigation';
-  import { resolve } from '$app/paths';
-  import * as m from '$lib/paraglide/messages';
+  import { Carta, MarkdownEditor } from 'carta-md'
+  import 'carta-md/default.css'
+  import DOMPurify from 'isomorphic-dompurify'
+  import { invalidateAll } from '$app/navigation'
+  import { resolve } from '$app/paths'
+  import * as m from '$lib/paraglide/messages'
 
   interface PostingData {
     id?: string;
@@ -29,48 +29,48 @@
     },
     filenames,
     formAction
-  }: Props = $props();
+  }: Props = $props()
 
   const carta = new Carta({
     sanitizer: DOMPurify.sanitize
-  });
+  })
 
   // --- State ---
   // We initialize state with the passed prop or defaults
-  let titleValue = $state(posting.title);
-  let descriptionValue = $state(posting.description);
-  let contentValue = $state(posting.content);
-  let visibilityValue = $state(posting.visibility);
+  let titleValue = $state(posting.title)
+  let descriptionValue = $state(posting.description)
+  let contentValue = $state(posting.content)
+  let visibilityValue = $state(posting.visibility)
 
-  let uploading = $state(false);
-  let uploadError = $state('');
+  let uploading = $state(false)
+  let uploadError = $state('')
 
   // --- Logic ---
   // Determine if we are editing an existing post
-  const isEditMode = $derived(!!posting.id);
+  const isEditMode = $derived(!!posting.id)
 
   // Dynamic path helper
   const addToContent = (filename: string) => {
-    const resourceId = posting.id ?? 'new';
-    const apiRoute = resolve(`/cdn/${resourceId}/${filename}`);
-    contentValue += `\n![Alt Text](${apiRoute})`;
-  };
+    const resourceId = posting.id ?? 'new'
+    const apiRoute = resolve(`/cdn/${resourceId}/${filename}`)
+    contentValue += `\n![Alt Text](${apiRoute})`
+  }
 
   async function handleUpload(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const files = input.files;
-    if (!files) return;
+    const input = event.target as HTMLInputElement
+    const files = input.files
+    if (!files) return
 
     for (const file of files) {
-      await uploadFile(file);
+      await uploadFile(file)
     }
-    input.value = '';
+    input.value = ''
   }
 
   async function uploadFile(file: File) {
-    uploading = true;
-    const formData = new FormData();
-    formData.append('file', file);
+    uploading = true
+    const formData = new FormData()
+    formData.append('file', file)
 
     try {
       // Use a consistent upload endpoint, or pass this as a prop if they strictly differ
@@ -78,17 +78,17 @@
       const response = await fetch(resolve('/(admin)/api/upload'), {
         method: 'POST',
         body: formData
-      });
+      })
 
       if (response.ok) {
-        await invalidateAll();
+        await invalidateAll()
       } else {
-        uploadError = response.statusText;
+        uploadError = response.statusText
       }
     } catch (error) {
-      uploadError = error as string;
+      uploadError = error as string
     } finally {
-      uploading = false;
+      uploading = false
     }
   }
 </script>
@@ -156,7 +156,8 @@
 
   <div class="text-xs font-semibold">{m.create_posting_visibility()}</div>
   <div class="flex flew-row gap-2">
-    <label class="flex h-12 cursor-pointer items-center gap-3 rounded px-4 ring-1 ring-gray-200 transition hover:bg-gray-50 has-[:checked]:ring-2 has-[:checked]:ring-blue-500">
+    <label
+      class="flex h-12 cursor-pointer items-center gap-3 rounded px-4 ring-1 ring-gray-200 transition hover:bg-gray-50 has-[:checked]:ring-2 has-[:checked]:ring-blue-500">
       <input
         type="radio"
         name="visibility"
@@ -166,7 +167,8 @@
       />
       <span class="text-sm">{m.visibility_public()}</span>
     </label>
-    <label class="flex h-12 cursor-pointer items-center gap-3 rounded px-4 ring-1 ring-gray-200 transition hover:bg-gray-50 has-[:checked]:ring-2 has-[:checked]:ring-blue-500">
+    <label
+      class="flex h-12 cursor-pointer items-center gap-3 rounded px-4 ring-1 ring-gray-200 transition hover:bg-gray-50 has-[:checked]:ring-2 has-[:checked]:ring-blue-500">
       <input
         type="radio"
         name="visibility"
