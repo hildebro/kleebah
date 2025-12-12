@@ -1,3 +1,18 @@
+# [0.10.0](https://github.com/hildebro/kleebah/compare/v0.9.0...v0.10.0) (2025-12-12)
+
+
+### Bug Fixes
+
+* proper binding for visibility ([c7710d7](https://github.com/hildebro/kleebah/commit/c7710d7a1e170abb12201d56156d8db102bc874a))
+* unable to create post without roles ([04aef15](https://github.com/hildebro/kleebah/commit/04aef15085ad056e2a17b2dcda50da56b6337a1a))
+
+
+### Features
+
+* add db posting-role-relation ([9606163](https://github.com/hildebro/kleebah/commit/96061632318fbe45991fed2dbc9701ed13a90931))
+* check posting roles for access ([88f4408](https://github.com/hildebro/kleebah/commit/88f44089493faba2d908f262a3a3883554a890c8))
+* role selection for posting ([0f6aa56](https://github.com/hildebro/kleebah/commit/0f6aa566202838323a85bdb26d9c8fd205a676bf))
+
 # [0.9.0](https://github.com/hildebro/kleebah/compare/v0.8.0...v0.9.0) (2025-12-10)
 
 
