@@ -221,7 +221,7 @@
         type="radio"
         name="visibility"
         value="public"
-        checked={visibilityValue === 'public'}
+        bind:group={visibilityValue}
         class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-offset-0 focus:outline-none"
       />
       <span class="text-sm">{m.visibility_public()}</span>
@@ -232,7 +232,7 @@
         type="radio"
         name="visibility"
         value="subscribers"
-        checked={visibilityValue === 'subscribers'}
+        bind:group={visibilityValue}
         class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-offset-0 focus:outline-none"
       />
       <span class="text-sm">{m.visibility_subscribers()}</span>
@@ -243,7 +243,7 @@
         type="radio"
         name="visibility"
         value="roles"
-        checked={visibilityValue === 'roles'}
+        bind:group={visibilityValue}
         class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-offset-0 focus:outline-none"
       />
       <span class="text-sm">{m.visibility_roles()}</span>
