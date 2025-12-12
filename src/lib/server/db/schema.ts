@@ -96,6 +96,24 @@ export const subscriberToRoleRelations = relations(subscriberToRole, ({ one }) =
   }),
 }));
 
+export const inviteLink = sqliteTable('invite_link', {
+  id: text().primaryKey(),
+  expiresAt: integer('expires_at', { mode: 'timestamp' }),
+})
+
+export const inviteLinkToRole = sqliteTable(
+  'invite_link_to_role',
+  {
+    inviteLinkId: text()
+      .notNull()
+      .references(() => inviteLink.id),
+    roleId: text()
+      .notNull()
+      .references(() => role.id)
+  },
+  (t) => [primaryKey({ columns: [t.inviteLinkId, t.roleId] })]
+)
+
 export const session = sqliteTable('session', {
   id: text().primaryKey(),
   userId: text('user_id')
