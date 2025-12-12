@@ -26,7 +26,12 @@ const postSchema = z.object({
   title: z.string().nonempty(),
   description: z.string(),
   content: z.string().nonempty(),
-  visibility: z.enum(Visibility).nonoptional()
+  visibility: z.enum(Visibility).nonoptional(),
+  roles: z.transform(value => {
+    if (!value) return []
+    if (!Array.isArray(value)) return [value]
+    return value
+  }).pipe(z.array(z.string()).nonoptional())
 })
 
 const deletePostingSchema = z.object({
@@ -35,7 +40,11 @@ const deletePostingSchema = z.object({
 
 export const actions: Actions = {
   update: async ({ request }) => {
-    const formData = Object.fromEntries(await request.formData())
+    const rawFormData = await request.formData()
+    const formData = {
+      ...Object.fromEntries(rawFormData),
+      roles: rawFormData.getAll('roles')
+    }
     const result = postSchema.safeParse(formData)
     if (!result.success) {
       return error(422, result.error)
@@ -43,7 +52,7 @@ export const actions: Actions = {
 
     const post = result.data
 
-    await updatePosting(post.id, post.title, post.description, post.content, post.visibility)
+    await updatePosting(post.id, post.title, post.description, post.content, post.visibility, post.roles)
 
     return redirect(302, resolve('/posting'))
   },

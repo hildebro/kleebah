@@ -44,6 +44,7 @@
   "subscribers_edit_password": "Password (leave empty to keep existing value)",
   "subscribers_roles": "Roles",
   "visibility_public": "Public",
+  "visibility_roles": "Subscribers with roles",
   "visibility_subscribers": "Subscribers",
   "welcome": "Welcome to Kleebah",
   "welcome_commit": "Create admin",

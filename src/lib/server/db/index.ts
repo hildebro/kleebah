@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/libsql'
 import { createClient } from '@libsql/client'
 import * as schema from './schema'
-import { admin, posting, role, subscriber, subscriberToRole, user, Visibility } from './schema'
+import { admin, posting, postingToRole, role, subscriber, subscriberToRole, user, Visibility } from './schema'
 import { env } from '$env/dynamic/private'
 import { encodeBase32LowerCase } from '@oslojs/encoding'
 import { eq } from 'drizzle-orm'
@@ -167,7 +167,8 @@ export const createPosting = async (
   title: string,
   description: string,
   content: string,
-  visibility: Visibility
+  visibility: Visibility,
+  roles: string[]
 ) => {
   const id = generateUUID()
 
@@ -178,6 +179,14 @@ export const createPosting = async (
     .values({ id, title, description, content: fixedRefContent, visibility })
     .execute()
 
+  const inserts = roles.map(roleId => {
+    return {
+      roleId,
+      postingId: id
+    }
+  })
+  await db.insert(postingToRole).values(inserts).execute()
+
   return id
 }
 
@@ -186,13 +195,30 @@ export const updatePosting = async (
   title: string,
   description: string,
   content: string,
-  visibility: Visibility
+  visibility: Visibility,
+  roles: string[]
 ) => {
   await db
     .update(posting)
     .set({ title, description, content, visibility })
     .where(eq(posting.id, id))
     .execute()
+
+  // clear all existing roles
+  await db.delete(postingToRole).where(eq(postingToRole.postingId, id)).execute()
+
+  if (roles.length === 0) {
+    return
+  }
+
+  // then insert the new rules
+  const inserts = roles.map(roleId => {
+    return {
+      roleId,
+      postingId: id
+    }
+  })
+  await db.insert(postingToRole).values(inserts).execute()
 }
 
 export const deletePosting = async (id: string) => {
@@ -216,6 +242,9 @@ export const findPostingsForUser = async (userId: string | undefined) => {
 export const findPosting = async (id: string) => {
   return db.query.posting
     .findFirst({
+      with: {
+        postingToRole: true
+      },
       where: eq(posting.id, id)
     })
     .execute()

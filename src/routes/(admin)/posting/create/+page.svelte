@@ -7,4 +7,5 @@
 <PostingForm
   filenames={data.filenames}
   formAction="?/create"
+  roleTree={data.roleTree}
 />

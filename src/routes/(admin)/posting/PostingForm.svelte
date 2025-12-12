@@ -5,6 +5,9 @@
   import { invalidateAll } from '$app/navigation'
   import { resolve } from '$app/paths'
   import * as m from '$lib/paraglide/messages'
+  import RoleTreeMultiSelect from '$lib/components/RoleTreeMultiSelect.svelte'
+  import type { RoleWithChildren } from '$lib/roles.ts'
+  import { SvelteMap, SvelteSet } from 'svelte/reactivity'
 
   interface PostingData {
     id?: string;
@@ -12,12 +15,14 @@
     description: string | null;
     content: string;
     visibility: string;
+    roles: string[];
   }
 
   interface Props {
     posting?: PostingData;
     filenames: string[];
     formAction: string;
+    roleTree: RoleWithChildren[];
   }
 
   let {
@@ -25,10 +30,12 @@
       title: '',
       description: '',
       content: '',
-      visibility: 'public'
+      visibility: 'public',
+      roles: [],
     },
     filenames,
-    formAction
+    formAction,
+    roleTree
   }: Props = $props()
 
   const carta = new Carta({
@@ -89,6 +96,58 @@
       uploadError = error as string
     } finally {
       uploading = false
+    }
+  }
+
+  // Source of truth for roles. Callbacks in the SubscriberRoleOption will update this.
+  let roles = new SvelteSet(posting.roles)
+
+  let maps = $derived.by(() => {
+    const parent = new SvelteMap<string, string>()
+    const children = new SvelteMap<string, string[]>()
+
+    function traverse(nodes: any[], parentId: string | null = null) {
+      for (const node of nodes) {
+        if (parentId) parent.set(node.id, parentId)
+        children.set(node.id, node.children.map((c: any) => c.id))
+        if (node.children.length > 0) traverse(node.children, node.id)
+      }
+    }
+
+    traverse(roleTree)
+    return { parent, children }
+  })
+
+  function handleToggle(toggledId: string, isChecked: boolean) {
+    if (isChecked) {
+      // Add self
+      roles.add(toggledId)
+
+      // Cascade UP: Add all ancestors
+      let currentId = toggledId
+      while (maps.parent.has(currentId)) {
+        const parentId = maps.parent.get(currentId)!
+        roles.add(parentId)
+        currentId = parentId
+      }
+
+    } else {
+      // Remove self
+      roles.delete(toggledId)
+
+      // Cascade DOWN: Remove all descendants
+      let queue = [toggledId]
+      while (queue.length > 0) {
+        const currentId = queue.pop()!
+        const kids = maps.children.get(currentId) || []
+
+        for (const childId of kids) {
+          if (roles.has(childId)) {
+            roles.delete(childId)
+            queue.push(childId)
+          }
+        }
+      }
     }
   }
 </script>
@@ -178,7 +237,29 @@
       />
       <span class="text-sm">{m.visibility_subscribers()}</span>
     </label>
+    <label
+      class="flex h-12 cursor-pointer items-center gap-3 rounded px-4 ring-1 ring-gray-200 transition hover:bg-gray-50 has-[:checked]:ring-2 has-[:checked]:ring-blue-500">
+      <input
+        type="radio"
+        name="visibility"
+        value="roles"
+        checked={visibilityValue === 'roles'}
+        class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-offset-0 focus:outline-none"
+      />
+      <span class="text-sm">{m.visibility_roles()}</span>
+    </label>
   </div>
+
+  {#if visibilityValue === 'roles'}
+    <div class="text-xs font-semibold">{m.roles()}</div>
+    {#each roleTree as roleNode (roleNode.id)}
+      <RoleTreeMultiSelect
+        role={roleNode}
+        selectedValues={roles}
+        onToggle={handleToggle}
+      />
+    {/each}
+  {/if}
 
   <div class="flex justify-between">
     <button
