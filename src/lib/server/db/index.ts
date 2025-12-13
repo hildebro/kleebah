@@ -16,6 +16,7 @@ import { env } from '$env/dynamic/private'
 import { encodeBase32LowerCase } from '@oslojs/encoding'
 import { and, eq, exists, inArray, or, sql } from 'drizzle-orm'
 import { replaceImageRefs } from '$lib/server/filesystem.ts'
+import id = $props.id
 
 const client = createClient({ url: env.DATABASE_URL ?? 'file:local.db' })
 
@@ -88,7 +89,7 @@ export const createSubscriber = async (username: string, passwordHash: string, r
   await db.insert(subscriber).values({ id }).execute()
 
   if (roles.length === 0) {
-    return
+    return id
   }
 
   const inserts = roles.map(roleId => {
@@ -98,6 +99,8 @@ export const createSubscriber = async (username: string, passwordHash: string, r
     }
   })
   await db.insert(subscriberToRole).values(inserts).execute()
+
+  return id
 }
 
 export const updateSubscriber = async (
@@ -149,7 +152,7 @@ export const findInviteLinks = async () => {
   return Promise.all(linksWithRoles)
 }
 
-const findRolesByInviteLink = async (inviteLinkId: string) => {
+export const findRolesByInviteLink = async (inviteLinkId: string) => {
   const relationTableSubQuery = db.select()
     .from(inviteLinkToRole)
     .where(and(
@@ -175,6 +178,12 @@ export const createInviteLink = async (roles: string[], expiresAt: Date | null) 
     }
   })
   await db.insert(inviteLinkToRole).values(inserts).execute()
+}
+
+export const findInviteLink = async (inviteLinkId: string) => {
+  return db.query.inviteLink.findFirst({
+    where: eq(inviteLink.id, inviteLinkId)
+  }).execute()
 }
 
 export const deleteInviteLink = async (id: string) => {

@@ -1,8 +1,15 @@
 <script lang="ts">
   import * as m from '$lib/paraglide/messages.js'
   import { resolve } from '$app/paths'
+  import { onMount } from 'svelte'
 
   let { data } = $props()
+
+  let origin = $state('')
+
+  onMount(() => {
+    origin = window.location.origin
+  })
 </script>
 
 <h1>{m.subscribers()}</h1>
@@ -14,6 +21,7 @@
   <table class="w-full table-auto">
     <thead>
     <tr>
+      <th scope="col">{m.subscribers_invite_link()}</th>
       <th scope="col">{m.subscribers_invite_link_generate_expiry()}</th>
       <th scope="col">{m.roles()}</th>
       <th scope="col"></th>
@@ -22,6 +30,7 @@
     <tbody>
     {#each data.inviteLinks as inviteLink (inviteLink.id)}
       <tr>
+        <td>{origin + resolve('/accept-invite/[id]', {id: inviteLink.id})}</td>
         <td>{inviteLink.expiresAt?.toDateString() ?? '-'}</td>
         <td>{inviteLink.roles.map(role => role.name).join(', ')}</td>
         <td>
