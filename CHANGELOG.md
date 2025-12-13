@@ -1,3 +1,12 @@
+# [0.11.0](https://github.com/hildebro/kleebah/compare/v0.10.0...v0.11.0) (2025-12-13)
+
+
+### Features
+
+* accept-invite page ([a7c7704](https://github.com/hildebro/kleebah/commit/a7c770419f43efc3b25d7dc28c97dd257fb466d0))
+* create/delete/list invite links ([e0c572a](https://github.com/hildebro/kleebah/commit/e0c572ad77e03870e8d53615fce309423ec01d33))
+* invite link db tables ([f29c7f0](https://github.com/hildebro/kleebah/commit/f29c7f01a5f5bba909efde254d3557bbb4099ab9))
+
 # [0.10.0](https://github.com/hildebro/kleebah/compare/v0.9.0...v0.10.0) (2025-12-12)
 
 
