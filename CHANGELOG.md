@@ -1,3 +1,10 @@
+## [0.11.1](https://github.com/hildebro/kleebah/compare/v0.11.0...v0.11.1) (2025-12-14)
+
+
+### Bug Fixes
+
+* upload on non-new postings ([1172351](https://github.com/hildebro/kleebah/commit/1172351ac685b219bced5d8fe740c521ac36de4b))
+
 # [0.11.0](https://github.com/hildebro/kleebah/compare/v0.10.0...v0.11.0) (2025-12-13)
 
 
