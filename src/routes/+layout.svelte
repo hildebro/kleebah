@@ -1,6 +1,7 @@
 <script lang="ts">
   import '../app.css'
   import '$lib/styles/main.css'
+  import '$lib/styles/classless.css'
   import favicon from '$lib/assets/favicon.svg'
   import { resolve } from '$app/paths'
   import * as m from '$lib/paraglide/messages'

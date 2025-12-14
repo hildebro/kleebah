@@ -31,7 +31,7 @@
       description: '',
       content: '',
       visibility: 'public',
-      roles: [],
+      roles: []
     },
     filenames,
     formAction,
@@ -210,7 +210,10 @@
 
   <div class="text-xs font-semibold">{m.create_posting_content()}</div>
 
-  <MarkdownEditor bind:value={contentValue} {carta} />
+  <div class="carta-isolation">
+    <MarkdownEditor bind:value={contentValue} {carta} />
+  </div>
+
   <input type="hidden" name="content" value={contentValue} />
 
   <div class="text-xs font-semibold">{m.create_posting_visibility()}</div>

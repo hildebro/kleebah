@@ -2,3 +2,21 @@
 
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+.carta-isolation * {
+    /* REVERT-LAYER:
+       This tells the browser to roll back all CSS properties to the value
+       they had BEFORE the current layer stack was applied.
+
+       In this context, it effectively strips away the styles defined in
+       @layer classless, falling back to Tailwind Base (Preflight).
+    */
+    all: revert-layer;
+
+    /* OPTIONAL FIXES:
+       Sometimes revert-layer is too aggressive (e.g., stripping 'box-sizing').
+       Since Tailwind Base sets box-sizing: border-box globally, revert-layer
+       might revert to content-box (browser default). Carta usually wants border-box.
+    */
+    box-sizing: border-box;
+}
