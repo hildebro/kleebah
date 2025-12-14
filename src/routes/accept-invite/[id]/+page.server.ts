@@ -1,6 +1,6 @@
-import type { PageServerLoad } from './$types'
+import type { Actions, PageServerLoad } from './$types'
 import { createSubscriber, findInviteLink, findRolesByInviteLink, findUser } from '$lib/server/db'
-import { type Actions, error, redirect } from '@sveltejs/kit'
+import { error, redirect } from '@sveltejs/kit'
 import { hashPassword } from '$lib/server/password.ts'
 import * as auth from '$lib/server/auth.ts'
 import { resolve } from '$app/paths'
