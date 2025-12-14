@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from './$types'
 import { createAdmin, findAdmins } from '$lib/server/db'
-import { error, fail, redirect } from '@sveltejs/kit'
+import { error, redirect } from '@sveltejs/kit'
 import * as auth from '$lib/server/auth.ts'
 import { hashPassword } from '$lib/server/password.ts'
 import { resolve } from '$app/paths'

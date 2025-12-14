@@ -1,6 +1,5 @@
 <script lang="ts">
   import * as m from '$lib/paraglide/messages.js'
-  import { SvelteMap, SvelteSet } from 'svelte/reactivity'
   import RoleTreeMultiSelect from '$lib/components/RoleTreeMultiSelect.svelte'
   import type { RoleWithChildren } from '$lib/roles.ts'
 

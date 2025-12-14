@@ -16,7 +16,6 @@ import { env } from '$env/dynamic/private'
 import { encodeBase32LowerCase } from '@oslojs/encoding'
 import { and, eq, exists, inArray, or, sql } from 'drizzle-orm'
 import { replaceImageRefs } from '$lib/server/filesystem.ts'
-import id = $props.id
 
 const client = createClient({ url: env.DATABASE_URL ?? 'file:local.db' })
 
