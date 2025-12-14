@@ -62,7 +62,6 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 
   const xml_string = xml(rss, { declaration: true })
 
-  // todo add query param to path, if its not already there
   return new Response(xml_string, {
     headers: {
       'Content-Type': 'text/xml; charset=utf-8'
