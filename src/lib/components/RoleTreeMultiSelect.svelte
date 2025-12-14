@@ -1,47 +1,77 @@
 <script lang="ts">
+  import * as m from '$lib/paraglide/messages'
   import type { RoleWithChildren } from '$lib/roles.ts'
-  import { SvelteSet } from 'svelte/reactivity'
-  import RoleTreeMultiSelect from './RoleTreeMultiSelect.svelte'
+  import { SvelteMap, SvelteSet } from 'svelte/reactivity'
+  import RoleTreeCheckbox from '$lib/components/RoleTreeCheckbox.svelte'
+
+  interface Props {
+    value?: string[],
+    roleTree: RoleWithChildren[];
+  }
 
   let {
-    role,
-    selectedValues,
-    depth = 0,
-    onToggle
-  }: {
-    role: RoleWithChildren;
-    selectedValues: SvelteSet<string>;
-    depth?: number;
-    onToggle: (id: string, checked: boolean) => void
-  } = $props()
+    value = [],
+    roleTree
+  }: Props = $props()
+
+  // Source of truth for roles. Callbacks in the RoleTreeCheckboxes will update this.
+  let roles = new SvelteSet(value)
+
+  let maps = $derived.by(() => {
+    const parent = new SvelteMap<string, string>()
+    const children = new SvelteMap<string, string[]>()
+
+    function traverse(nodes: RoleWithChildren[], parentId: string | null = null) {
+      for (const node of nodes) {
+        if (parentId) parent.set(node.id, parentId)
+        children.set(node.id, node.children.map((c) => c.id))
+        if (node.children.length > 0) traverse(node.children, node.id)
+      }
+    }
+
+    traverse(roleTree)
+    return { parent, children }
+  })
+
+  function handleToggle(toggledId: string, isChecked: boolean) {
+    if (isChecked) {
+      // Add self
+      roles.add(toggledId)
+
+      // Cascade UP: Add all ancestors
+      let currentId = toggledId
+      while (maps.parent.has(currentId)) {
+        const parentId = maps.parent.get(currentId)!
+        roles.add(parentId)
+        currentId = parentId
+      }
+
+    } else {
+      // Remove self
+      roles.delete(toggledId)
+
+      // Cascade DOWN: Remove all descendants
+      let queue = [toggledId]
+      while (queue.length > 0) {
+        const currentId = queue.pop()!
+        const kids = maps.children.get(currentId) || []
+
+        for (const childId of kids) {
+          if (roles.has(childId)) {
+            roles.delete(childId)
+            queue.push(childId)
+          }
+        }
+      }
+    }
+  }
 </script>
 
-<div style="padding-left: {depth * 1.5}rem;">
-  <label
-    class="flex h-12 cursor-pointer items-center gap-3 rounded px-4 ring-1 ring-gray-200 transition hover:bg-gray-50 has-[:checked]:ring-2 has-[:checked]:ring-blue-500"
-  >
-    <input
-      type="checkbox"
-      name="roles"
-      value={role.id}
-      class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-offset-0 focus:outline-none"
-
-      checked={selectedValues.has(role.id)}
-      onchange={(e) => onToggle(role.id, e.currentTarget.checked)}
-    />
-    <span class="text-sm">
-      {#if depth > 0}
-        <span class="mr-1 text-gray-400">└</span>
-      {/if}
-      {role.name}
-    </span>
-  </label>
-</div>
-
-{#if role.children.length > 0}
-  <div class="mt-2 flex flex-col gap-2">
-    {#each role.children as child (child.id)}
-      <RoleTreeMultiSelect role={child} depth={depth + 1} {selectedValues} {onToggle} />
-    {/each}
-  </div>
-{/if}
+<div class="text-xs font-semibold">{m.roles()}</div>
+{#each roleTree as roleNode (roleNode.id)}
+  <RoleTreeCheckbox
+    role={roleNode}
+    selectedValues={roles}
+    onToggle={handleToggle}
+  />
+{/each}

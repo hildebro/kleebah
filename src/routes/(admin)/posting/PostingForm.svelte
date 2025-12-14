@@ -7,7 +7,6 @@
   import * as m from '$lib/paraglide/messages'
   import RoleTreeMultiSelect from '$lib/components/RoleTreeMultiSelect.svelte'
   import type { RoleWithChildren } from '$lib/roles.ts'
-  import { SvelteMap, SvelteSet } from 'svelte/reactivity'
 
   interface PostingData {
     id?: string;
@@ -48,6 +47,7 @@
   let descriptionValue = $state(posting.description)
   let contentValue = $state(posting.content)
   let visibilityValue = $state(posting.visibility)
+  let rolesValue = $state(posting.roles)
 
   let uploading = $state(false)
   let uploadError = $state('')
@@ -96,58 +96,6 @@
       uploadError = error as string
     } finally {
       uploading = false
-    }
-  }
-
-  // Source of truth for roles. Callbacks in the SubscriberRoleOption will update this.
-  let roles = new SvelteSet(posting.roles)
-
-  let maps = $derived.by(() => {
-    const parent = new SvelteMap<string, string>()
-    const children = new SvelteMap<string, string[]>()
-
-    function traverse(nodes: any[], parentId: string | null = null) {
-      for (const node of nodes) {
-        if (parentId) parent.set(node.id, parentId)
-        children.set(node.id, node.children.map((c: any) => c.id))
-        if (node.children.length > 0) traverse(node.children, node.id)
-      }
-    }
-
-    traverse(roleTree)
-    return { parent, children }
-  })
-
-  function handleToggle(toggledId: string, isChecked: boolean) {
-    if (isChecked) {
-      // Add self
-      roles.add(toggledId)
-
-      // Cascade UP: Add all ancestors
-      let currentId = toggledId
-      while (maps.parent.has(currentId)) {
-        const parentId = maps.parent.get(currentId)!
-        roles.add(parentId)
-        currentId = parentId
-      }
-
-    } else {
-      // Remove self
-      roles.delete(toggledId)
-
-      // Cascade DOWN: Remove all descendants
-      let queue = [toggledId]
-      while (queue.length > 0) {
-        const currentId = queue.pop()!
-        const kids = maps.children.get(currentId) || []
-
-        for (const childId of kids) {
-          if (roles.has(childId)) {
-            roles.delete(childId)
-            queue.push(childId)
-          }
-        }
-      }
     }
   }
 </script>
@@ -251,14 +199,7 @@
   </div>
 
   {#if visibilityValue === 'roles'}
-    <div class="text-xs font-semibold">{m.roles()}</div>
-    {#each roleTree as roleNode (roleNode.id)}
-      <RoleTreeMultiSelect
-        role={roleNode}
-        selectedValues={roles}
-        onToggle={handleToggle}
-      />
-    {/each}
+    <RoleTreeMultiSelect value={rolesValue} {roleTree} />
   {/if}
 
   <div class="flex justify-between">
