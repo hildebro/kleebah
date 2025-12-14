@@ -152,9 +152,9 @@
   }
 </script>
 
-<h1 class="mt-12 text-center text-2xl font-bold">{m.create_posting()}</h1>
+<h1 class="">{m.create_posting()}</h1>
 <form
-  class="flex flex-col items-stretch gap-3 rounded p-12 shadow-lg"
+  class=""
   method="post"
   action={formAction}
 >
@@ -162,26 +162,26 @@
     <input type="hidden" name="id" value={posting.id} />
   {/if}
 
-  <label class="text-xs font-semibold" for="title">{m.create_posting_title()}</label>
+  <label class="" for="title">{m.create_posting_title()}</label>
   <input
-    class="flex h-12 rounded px-4 focus:ring-2 focus:outline-none"
+    class=""
     type="text"
     name="title"
     bind:value={titleValue}
   />
 
-  <label class="text-xs font-semibold" for="description">{m.create_posting_description()}</label>
+  <label class="" for="description">{m.create_posting_description()}</label>
   <textarea
-    class="flex h-24 resize-none rounded px-4 focus:ring-2 focus:outline-none"
     name="description"
     bind:value={descriptionValue}
+    rows={3}
   ></textarea>
 
   <label
-    class="w-36 rounded bg-blue-500 px-3 py-1 text-center text-xs font-semibold text-blue-100 hover:cursor-pointer hover:bg-blue-700 focus:ring-2 focus:outline-none"
+    class="uploader-label"
   >
     <span>{m.create_posting_upload()}</span>
-    <input type="file" multiple accept="image/*" onchange={handleUpload} class="sr-only" />
+    <input type="file" multiple accept="image/*" onchange={handleUpload} class="uploader-input" />
   </label>
 
   <div>
@@ -194,11 +194,11 @@
 
     {#if filenames.length > 0}
       {m.create_posting_upload_list()}
-      <div class="flex flex-col gap-2">
+      <div class="">
         {#each filenames as filename (filename)}
           <button
             type="button"
-            class="bg-gray-100 hover:bg-gray-200"
+            class=""
             onclick={() => addToContent(filename)}
           >
             {filename}
@@ -208,65 +208,67 @@
     {/if}
   </div>
 
-  <div class="text-xs font-semibold">{m.create_posting_content()}</div>
+  <div class="">{m.create_posting_content()}</div>
 
-  <div class="carta-isolation">
+  <div class="classless-isolation">
     <MarkdownEditor bind:value={contentValue} {carta} />
   </div>
 
   <input type="hidden" name="content" value={contentValue} />
 
-  <div class="text-xs font-semibold">{m.create_posting_visibility()}</div>
-  <div class="flex flew-row gap-2">
+  <div class="">{m.create_posting_visibility()}</div>
+  <div class="">
     <label
-      class="flex h-12 cursor-pointer items-center gap-3 rounded px-4 ring-1 ring-gray-200 transition hover:bg-gray-50 has-[:checked]:ring-2 has-[:checked]:ring-blue-500">
+      class="">
       <input
         type="radio"
         name="visibility"
         value="public"
         bind:group={visibilityValue}
-        class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-offset-0 focus:outline-none"
+        class=""
       />
-      <span class="text-sm">{m.visibility_public()}</span>
+      <span class="">{m.visibility_public()}</span>
     </label>
     <label
-      class="flex h-12 cursor-pointer items-center gap-3 rounded px-4 ring-1 ring-gray-200 transition hover:bg-gray-50 has-[:checked]:ring-2 has-[:checked]:ring-blue-500">
+      class="">
       <input
         type="radio"
         name="visibility"
         value="subscribers"
         bind:group={visibilityValue}
-        class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-offset-0 focus:outline-none"
+        class=""
       />
-      <span class="text-sm">{m.visibility_subscribers()}</span>
+      <span class="">{m.visibility_subscribers()}</span>
     </label>
     <label
-      class="flex h-12 cursor-pointer items-center gap-3 rounded px-4 ring-1 ring-gray-200 transition hover:bg-gray-50 has-[:checked]:ring-2 has-[:checked]:ring-blue-500">
+      class="">
       <input
         type="radio"
         name="visibility"
         value="roles"
         bind:group={visibilityValue}
-        class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-offset-0 focus:outline-none"
+        class=""
       />
-      <span class="text-sm">{m.visibility_roles()}</span>
+      <span class="">{m.visibility_roles()}</span>
     </label>
   </div>
 
   {#if visibilityValue === 'roles'}
-    <div class="text-xs font-semibold">{m.roles()}</div>
-    {#each roleTree as roleNode (roleNode.id)}
-      <RoleTreeMultiSelect
-        role={roleNode}
-        selectedValues={roles}
-        onToggle={handleToggle}
-      />
-    {/each}
+    <div class="classless-isolation">
+      <div class="">{m.roles()}</div>
+      {#each roleTree as roleNode (roleNode.id)}
+        <RoleTreeMultiSelect
+          role={roleNode}
+          selectedValues={roles}
+          onToggle={handleToggle}
+        />
+      {/each}
+    </div>
   {/if}
 
-  <div class="flex justify-between">
+  <div class="">
     <button
-      class="h-12 w-64 rounded bg-blue-600 text-sm font-semibold text-blue-100 hover:bg-blue-700"
+      class=""
       type="submit"
     >
       {m.create_posting_save()}
@@ -274,7 +276,7 @@
 
     {#if isEditMode}
       <button
-        class="h-12 w-64 rounded bg-red-600 text-sm font-semibold text-red-100 hover:bg-red-700"
+        class=""
         type="submit"
         formaction="?/delete"
       >
@@ -300,5 +302,43 @@
 
   :global(.dark .carta-renderer) {
     @apply prose-invert;
+  }
+
+  /* Make the uploader label look like a button */
+  .uploader-label {
+    font: var(--font-h);
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+
+    margin: .5em;
+    padding: .4em 1em;
+    border: 1.5px solid var(--clink);
+    color: var(--clink);
+    background-color: var(--clight);
+    border-radius: 4px;
+
+    font-size: 85%;
+    letter-spacing: .1em;
+    text-align: center;
+  }
+
+  .uploader-label:hover {
+    filter: brightness(92%);
+    color: var(--cemph);
+    border-color: var(--cemph);
+  }
+
+  /* Display only for screen readers, replaces Tailwind's sr-only */
+  .uploader-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 </style>

@@ -9,7 +9,7 @@
   let { data } = $props()
 </script>
 
-<div class="carta-isolation prose lg:prose-xl carta">
+<div class="classless-isolation prose lg:prose-xl carta">
   <h1>{data.blog.title}</h1>
   <p>{data.blog.description}</p>
   <br />

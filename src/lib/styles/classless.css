@@ -302,7 +302,7 @@ textarea, input:not([type=range]), button, select {
 	color: var(--cfg);
 	background-color: var(--clight);
 }
-fieldset select, input:not([type=checkbox]):not([type=radio]) {
+fieldset select, textarea, input:not([type=checkbox]):not([type=radio]) {
 	display: block;
 	width: 100%;
 	margin: 0 0 1rem;
