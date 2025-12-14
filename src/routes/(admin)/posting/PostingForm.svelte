@@ -78,6 +78,7 @@
     uploading = true
     const formData = new FormData()
     formData.append('file', file)
+    formData.append('postingId', posting?.id ?? '')
 
     try {
       // Use a consistent upload endpoint, or pass this as a prop if they strictly differ

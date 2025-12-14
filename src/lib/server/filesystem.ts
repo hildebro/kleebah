@@ -38,8 +38,8 @@ export const fetchImage = async (postingId: string, filename: string) => {
   }
 }
 
-export const saveImage = async (file: File, postingId: string|undefined) => {
-  const directoryPart = postingId && postingId.length > 0 ? postingId : 'new';
+export const saveImage = async (file: File, postingId: string | undefined) => {
+  const directoryPart = postingId && postingId.length > 0 ? postingId : 'new'
   const uploadDir = path.join(DATA_DIRECTORY, directoryPart)
 
   if (!fs.existsSync(uploadDir)) {
