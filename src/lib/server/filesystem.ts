@@ -80,6 +80,17 @@ export const deleteFiles = (id: string) => {
   fs.rmSync(dataDirectory, { recursive: true, force: true })
 }
 
+export const deleteImage = (postingId: string, filename: string) => {
+  const dataDirectory = path.join(DATA_DIRECTORY, postingId)
+  // Nothing to do, if no folder is present.
+  if (!fs.existsSync(dataDirectory)) {
+    return
+  }
+
+  fs.rmSync(path.join(dataDirectory, filename))
+}
+
+
 /**
  * When writing blogs, new images are saved in `data/new/$filename` and referenced via
  * `cdn/new/$filename` in the content block. When the posting is saved and receives an ID, we

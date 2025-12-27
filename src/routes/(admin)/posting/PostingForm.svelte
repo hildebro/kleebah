@@ -30,7 +30,7 @@
       description: '',
       content: '',
       visibility: 'public',
-      roles: [],
+      roles: []
     },
     filenames,
     formAction,
@@ -63,6 +63,32 @@
     contentValue += `\n![Alt Text](${apiRoute})`
   }
 
+  async function deleteImage(filename: string) {
+    uploading = true
+    const formData = new FormData()
+    formData.append('filename', filename)
+    formData.append('postingId', posting?.id ?? '')
+
+    try {
+      // Use a consistent upload endpoint, or pass this as a prop if they strictly differ
+      // Assuming your backend can handle the context based on route or session
+      const response = await fetch(resolve('/(admin)/api/images'), {
+        method: 'DELETE',
+        body: formData
+      })
+
+      if (response.ok) {
+        await invalidateAll()
+      } else {
+        uploadError = response.statusText
+      }
+    } catch (error) {
+      uploadError = error as string
+    } finally {
+      uploading = false
+    }
+  }
+
   async function handleUpload(event: Event) {
     const input = event.target as HTMLInputElement
     const files = input.files
@@ -83,7 +109,7 @@
     try {
       // Use a consistent upload endpoint, or pass this as a prop if they strictly differ
       // Assuming your backend can handle the context based on route or session
-      const response = await fetch(resolve('/(admin)/api/upload'), {
+      const response = await fetch(resolve('/(admin)/api/images'), {
         method: 'POST',
         body: formData
       })
@@ -145,13 +171,22 @@
       {m.create_posting_upload_list()}
       <div class="flex flex-col gap-2">
         {#each filenames as filename (filename)}
-          <button
-            type="button"
-            class="bg-gray-100 hover:bg-gray-200"
-            onclick={() => addToContent(filename)}
-          >
-            {filename}
-          </button>
+          <div class="flex flex-row gap-2">
+            <button
+              type="button"
+              class="bg-gray-100 hover:bg-gray-200 grow"
+              onclick={() => addToContent(filename)}
+            >
+              {filename}
+            </button>
+            <button
+              type="button"
+              class="h-12 w-64 rounded bg-red-600 text-sm font-semibold text-red-100 hover:bg-red-700"
+              onclick={() => deleteImage(filename)}
+            >
+              {m.create_posting_delete_image()}
+            </button>
+          </div>
         {/each}
       </div>
     {/if}

@@ -1,6 +1,7 @@
 {
   "create_posting": "Write a post",
   "create_posting_content": "Content",
+  "create_posting_delete_image": "Delete image",
   "create_posting_description": "Description (optional)",
   "create_posting_save": "Save post",
   "create_posting_title": "Title",
