@@ -1,3 +1,10 @@
+# [0.12.0](https://github.com/hildebro/kleebah/compare/v0.11.1...v0.12.0) (2025-12-30)
+
+
+### Features
+
+* enable image deletion ([aeacea3](https://github.com/hildebro/kleebah/commit/aeacea3dfc6479c74ff8ede54ea058e655990c4a))
+
 ## [0.11.1](https://github.com/hildebro/kleebah/compare/v0.11.0...v0.11.1) (2025-12-14)
 
 
