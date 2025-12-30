@@ -189,6 +189,9 @@
           </div>
         {/each}
       </div>
+      <div>
+        {m.create_posting_delete_image_disclaimer()}
+      </div>
     {/if}
   </div>
 

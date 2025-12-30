@@ -38,6 +38,9 @@ Accessible software to share blogs, vlogs, links or anything else without being 
   - [ ] handle deletion attempts, if foreign key references exist
 
 ### Post 1.0
+- [ ] Image improvements
+  - [ ] Buffer upload and deletion instead of doing it instantly
+  - [ ] Don't use browser image buffering in the preview
 - [ ] Demo instance, linked on the explainer website
 - [ ] Use environment variables to set up initial admin automatically
 - [ ] Support for `draft` / `hidden` flag on postings
